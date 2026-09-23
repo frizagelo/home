@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Friza Gelo | Gelo em Salvador e Região</title>
+
+    <meta name="description"
+        content="Gelo em cubos de 5 kg e 10 kg com entrega em Salvador e Região. Faça seu pedido de forma rápida e receba a confirmação pelo WhatsApp." />
+
+    <meta name="theme-color" content="#0D3B66" />
+
+    <!-- Favicon futuramente -->
+    <!--
+  <link rel="icon" href="./assets/brand/favicon.png" />
+  -->
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/sections.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+</head>
+
+<body>
+
+    <!-- =========================
+       HEADER
+  ========================== -->
+    <header class="site-header">
+        <div class="container header-container">
+
+            <a href="#inicio" class="brand" aria-label="Friza Gelo - Início">
+                <img src="./assets/brand/logo-friza-principal.png" alt="Friza Gelo" class="brand-logo" />
+            </a>
+
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a href="#produtos">Produtos</a>
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#atendimento">Atendimento</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- =========================
+         S1 - HERO + FORMULÁRIO
+    ========================== -->
+        <section class="hero" id="inicio">
+            <div class="container hero-container">
+
+                <div class="hero-content">
+
+                    <div class="hero-logo-placeholder">
+                        LOGO FRIZA
+                    </div>
+
+                    <h1>
+                        Gelo em cubos com entrega em Salvador e Região
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        5 kg e 10 kg para festas, bares, restaurantes, eventos e empresas.
+                    </p>
+
+                </div>
+
+
+                <div class="order-form-wrapper" id="pedido">
+
+                    <div class="order-form-header">
+                        <span class="form-eyebrow">
+                            Pedido online
+                        </span>
+
+                        <h2>
+                            Faça seu pedido
+                        </h2>
+
+                        <p class="form-step-indicator">
+                            Etapa <span id="current-step">1</span> de 2
+                        </p>
+                    </div>
+
+
+                    <form id="order-form" novalidate>
+
+                        <!-- ETAPA 1 -->
+                        <div class="form-step is-active" data-step="1">
+
+                            <div class="form-group">
+                                <span class="form-label">
+                                    Tamanho do gelo
+                                </span>
+
+                                <div class="option-grid option-grid-two">
+
+                                    <label class="selection-card">
+                                        <input type="radio" name="peso" value="5kg" required />
+
+                                        <span>
+                                            5 kg
+                                        </span>
+                                    </label>
+
+
+                                    <label class="selection-card">
+                                        <input type="radio" name="peso" value="10kg" required />
+
+                                        <span>
+                                            10 kg
+                                        </span>
+                                    </label>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="quantidade" class="form-label">
+                                    Quantidade
+                                </label>
+
+                                <input type="number" id="quantidade" name="quantidade" min="1" inputmode="numeric"
+                                    placeholder="Ex.: 2" required />
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="data-entrega" class="form-label">
+                                    Data desejada
+                                </label>
+
+                                <input type="date" id="data-entrega" name="data_entrega" required />
+
+                                <small class="form-help">
+                                    Pedidos com no mínimo 24 horas de antecedência.
+                                </small>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="bairro" class="form-label">
+                                    Bairro / Região
+                                </label>
+
+                                <input type="text" id="bairro" name="bairro" placeholder="Digite seu bairro"
+                                    autocomplete="address-level3" required />
+                            </div>
+
+
+                            <button type="button" class="button button-primary button-full" id="next-step">
+                                Continuar
+                            </button>
+
+                        </div>
+
+
+                        <!-- ETAPA 2 -->
+                        <div class="form-step" data-step="2" hidden>
+
+                            <div class="form-group">
+                                <label for="nome" class="form-label">
+                                    Nome
+                                </label>
+
+                                <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name"
+                                    required />
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="whatsapp" class="form-label">
+                                    WhatsApp
+                                </label>
+
+                                <input type="tel" id="whatsapp" name="whatsapp" placeholder="(71) 99999-9999"
+                                    autocomplete="tel" required />
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="observacao" class="form-label">
+                                    Observação
+                                    <span class="optional">
+                                        opcional
+                                    </span>
+                                </label>
+
+                                <textarea id="observacao" name="observacao" rows="4"
+                                    placeholder="Alguma informação importante sobre o pedido?"></textarea>
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button type="button" class="button button-secondary" id="previous-step">
+                                    Voltar
+                                </button>
+
+                                <button type="submit" class="button button-primary" id="submit-order">
+                                    Enviar pedido
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FEEDBACK -->
+                        <div class="form-feedback" id="form-feedback" aria-live="polite"></div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================
+         S2 - PRODUTOS
+    ========================== -->
+        <section class="products section" id="produtos">
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>
+                        Nossos produtos
+                    </h2>
+                </div>
+
+
+                <div class="products-grid" id="products-list">
+
+                    <article class="product-card">
+
+                        <div class="product-image-placeholder">
+                            AQUI VAI A IMAGEM DO GELO 5 KG
+                        </div>
+
+                        <h3>
+                            Gelo em cubos 5 kg
+                        </h3>
+
+                    </article>
+
+
+                    <article class="product-card">
+
+                        <div class="product-image-placeholder">
+                            AQUI VAI A IMAGEM DO GELO 10 KG
+                        </div>
+
+                        <h3>
+                            Gelo em cubos 10 kg
+                        </h3>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================
+         S3 - COMO FUNCIONA
+    ========================== -->
+        <section class="how-it-works section" id="como-funciona">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>
+                        Como funciona
+                    </h2>
+                </div>
+
+
+                <div class="steps-flow">
+
+                    <article class="step-item">
+
+                        <div class="step-icon-placeholder">
+                            ÍCONE
+                        </div>
+
+                        <h3>
+                            Faça seu pedido
+                        </h3>
+
+                        <p>
+                            Escolha tamanho, quantidade e data.
+                        </p>
+
+                    </article>
+
+
+                    <div class="step-arrow" aria-hidden="true">
+                        →
+                    </div>
+
+
+                    <article class="step-item">
+
+                        <div class="step-icon-placeholder">
+                            ÍCONE
+                        </div>
+
+                        <h3>
+                            Verificamos a disponibilidade
+                        </h3>
+
+                        <p>
+                            Conferimos pedido, data e região.
+                        </p>
+
+                    </article>
+
+
+                    <div class="step-arrow" aria-hidden="true">
+                        →
+                    </div>
+
+
+                    <article class="step-item">
+
+                        <div class="step-icon-placeholder">
+                            ÍCONE
+                        </div>
+
+                        <h3>
+                            Confirmamos pelo WhatsApp
+                        </h3>
+
+                        <p>
+                            Você recebe a confirmação do pedido.
+                        </p>
+
+                    </article>
+
+
+                    <div class="step-arrow" aria-hidden="true">
+                        →
+                    </div>
+
+
+                    <article class="step-item">
+
+                        <div class="step-icon-placeholder">
+                            ÍCONE
+                        </div>
+
+                        <h3>
+                            Entregamos para você
+                        </h3>
+
+                        <p>
+                            Receba na data combinada.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================
+         S4 - OPERAÇÃO / CONFIANÇA
+    ========================== -->
+        <section class="trust-section section" id="operacao">
+
+            <div class="trust-background-placeholder">
+                AQUI VAI A IMAGEM DA OPERAÇÃO DA FRIZA
+            </div>
+
+
+            <div class="trust-overlay"></div>
+
+
+            <div class="container trust-content">
+
+                <div class="trust-copy">
+
+                    <h2>
+                        Gelo é simples.
+                        <br />
+                        Ficar sem ele não é.
+                    </h2>
+
+                    <p>
+                        Quando você precisa, o gelo precisa estar lá.
+                        A Friza trabalha para que isso aconteça.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         S5 - ÁREA DE ATENDIMENTO
+    ========================== -->
+        <section class="service-area section" id="atendimento">
+
+            <div class="container service-area-container">
+
+                <div class="service-area-content">
+
+                    <h2>
+                        Atendemos Salvador e Região
+                    </h2>
+
+                    <ul class="service-area-list" id="service-area-list">
+                        <li>Salvador</li>
+                        <li>Lauro de Freitas</li>
+                        <li>Dias d’Ávila</li>
+                        <li>Camaçari</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="service-map-placeholder">
+                    AQUI VAI O MAPA DA ÁREA DE ATENDIMENTO
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         S6 - FAQ
+    ========================== -->
+        <section class="faq section" id="faq">
+
+            <div class="container faq-container">
+
+                <div class="section-heading">
+                    <h2>
+                        Perguntas frequentes
+                    </h2>
+                </div>
+
+
+                <div class="accordion" id="faq-list">
+
+                    <article class="accordion-item">
+
+                        <button class="accordion-trigger" type="button" aria-expanded="false">
+                            <span>
+                                Qual é o prazo para entrega?
+                            </span>
+
+                            <span class="accordion-icon" aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+
+                        <div class="accordion-content" hidden>
+                            <p>
+                                As entregas são programadas com no mínimo
+                                24 horas de antecedência, sujeitas à
+                                disponibilidade para a data e região informadas.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="accordion-item">
+
+                        <button class="accordion-trigger" type="button" aria-expanded="false">
+                            <span>
+                                Quais tamanhos de gelo estão disponíveis?
+                            </span>
+
+                            <span class="accordion-icon" aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+
+                        <div class="accordion-content" hidden>
+                            <p>
+                                Atualmente trabalhamos com gelo em cubos
+                                de 5 kg e 10 kg.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="accordion-item">
+
+                        <button class="accordion-trigger" type="button" aria-expanded="false">
+                            <span>
+                                Onde a Friza entrega?
+                            </span>
+
+                            <span class="accordion-icon" aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+
+                        <div class="accordion-content" hidden>
+                            <p>
+                                Atendemos Salvador, Lauro de Freitas,
+                                Dias d’Ávila e Camaçari. Outras regiões
+                                podem ser consultadas no momento do pedido.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="accordion-item">
+
+                        <button class="accordion-trigger" type="button" aria-expanded="false">
+                            <span>
+                                Existe pedido mínimo?
+                            </span>
+
+                            <span class="accordion-icon" aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+
+                        <div class="accordion-content" hidden>
+                            <p>
+                                O pedido mínimo pode variar conforme a região
+                                e a programação da entrega. A confirmação é feita
+                                após a análise do pedido.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="accordion-item">
+
+                        <button class="accordion-trigger" type="button" aria-expanded="false">
+                            <span>
+                                Como funciona o pagamento?
+                            </span>
+
+                            <span class="accordion-icon" aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+
+                        <div class="accordion-content" hidden>
+                            <p>
+                                Aceitamos Pix e também disponibilizamos
+                                link para pagamento. Os detalhes são confirmados
+                                pelo WhatsApp após a análise do pedido.
+                            </p>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================
+         S7 - CTA FINAL
+    ========================== -->
+        <section class="final-cta section">
+
+            <div class="container final-cta-container">
+
+                <div class="final-cta-content">
+
+                    <h2>
+                        Precisa de gelo em Salvador e Região?
+                    </h2>
+
+                    <p>
+                        Faça seu pedido e receba a confirmação pelo WhatsApp.
+                    </p>
+
+                    <a href="#pedido" class="button button-light">
+                        Fazer pedido
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+       FOOTER
+  ========================== -->
+    <footer class="site-footer">
+
+        <div class="container footer-container">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo-placeholder">
+                    LOGO FRIZA BRANCA
+                </div>
+
+                <p>
+                    Entrega de gelo em Salvador e Região.
+                </p>
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <h2 class="footer-title">
+                    Contato
+                </h2>
+
+                <a href="#" id="footer-whatsapp">
+                    WhatsApp
+                </a>
+
+                <a href="#" id="footer-instagram">
+                    Instagram
+                </a>
+
+            </div>
+
+
+            <div class="footer-area">
+
+                <h2 class="footer-title">
+                    Atendimento
+                </h2>
+
+                <p>
+                    Salvador • Lauro de Freitas
+                    <br />
+                    Dias d’Ávila • Camaçari
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
+
+            <p>
+                © <span id="current-year"></span> Friza Gelo.
+                Todos os direitos reservados.
+            </p>
+
+            <a href="#">
+                Política de Privacidade
+            </a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+    <script type="module" src="./js/main.js"></script>
+
+</body>
+
+</html>

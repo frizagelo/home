@@ -1,0 +1,888 @@
+/* =========================================================
+   FRIZA GELO
+   RESPONSIVE.CSS
+   Ajustes finos de responsividade
+========================================================= */
+
+
+/* =========================================================
+   1. TELAS MUITO GRANDES
+   1440px+
+========================================================= */
+
+@media (min-width: 1440px) {
+
+  :root {
+    --container-width: 1280px;
+  }
+
+  .hero {
+    min-height: 720px;
+
+    display: flex;
+    align-items: center;
+  }
+
+
+  .hero-container {
+    width: 100%;
+  }
+
+
+  .hero-content h1 {
+    max-width: 720px;
+  }
+
+
+  .order-form-wrapper {
+    max-width: 520px;
+
+    justify-self: end;
+  }
+
+
+  .products-grid {
+    max-width: 980px;
+  }
+
+
+  .trust-section,
+  .trust-content {
+    min-height: 660px;
+  }
+
+
+  .service-map-placeholder {
+    min-height: 500px;
+  }
+
+}
+
+
+/* =========================================================
+   2. DESKTOP PADRÃO
+   1200px - 1439px
+========================================================= */
+
+@media (min-width: 1200px) and (max-width: 1439px) {
+
+  .hero-content h1 {
+    max-width: 640px;
+  }
+
+
+  .order-form-wrapper {
+    max-width: 500px;
+
+    justify-self: end;
+  }
+
+}
+
+
+/* =========================================================
+   3. NOTEBOOK
+   1024px - 1199px
+========================================================= */
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+
+  .hero-container {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(380px, 0.9fr);
+
+    gap: 48px;
+  }
+
+
+  .hero-content h1 {
+    font-size: clamp(2.8rem, 5vw, 4rem);
+  }
+
+
+  .order-form-wrapper {
+    padding: var(--space-6);
+  }
+
+
+  .steps-flow {
+    gap: 10px;
+  }
+
+
+  .step-item h3 {
+    font-size: 1.05rem;
+  }
+
+
+  .step-item p {
+    font-size: 0.84rem;
+  }
+
+
+  .service-area-container {
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(380px, 1.1fr);
+  }
+
+}
+
+
+/* =========================================================
+   4. TABLET HORIZONTAL / NOTEBOOK PEQUENO
+   900px - 1023px
+========================================================= */
+
+@media (min-width: 900px) and (max-width: 1023px) {
+
+  .header-container {
+    min-height: 72px;
+  }
+
+
+  .hero {
+    padding-top: 56px;
+    padding-bottom: 64px;
+  }
+
+
+  .hero-container {
+    grid-template-columns: 1fr;
+
+    gap: 36px;
+  }
+
+
+  .hero-content {
+    max-width: 760px;
+  }
+
+
+  .hero-content h1 {
+    max-width: 720px;
+  }
+
+
+  .hero-subtitle {
+    max-width: 680px;
+  }
+
+
+  .order-form-wrapper {
+    max-width: 720px;
+  }
+
+
+  .products-grid {
+    max-width: 760px;
+  }
+
+
+  .service-area-container {
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+  }
+
+
+  .service-area-content {
+    max-width: 680px;
+  }
+
+
+  .service-map-placeholder {
+    min-height: 360px;
+  }
+
+}
+
+
+/* =========================================================
+   5. TABLET
+   769px - 899px
+========================================================= */
+
+@media (min-width: 769px) and (max-width: 899px) {
+
+  .header-container {
+    min-height: 70px;
+  }
+
+
+  .hero {
+    padding-top: 48px;
+    padding-bottom: 60px;
+  }
+
+
+  .hero-container {
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+
+  .hero-content h1 {
+    max-width: 680px;
+  }
+
+
+  .order-form-wrapper {
+    max-width: 680px;
+  }
+
+
+  .products-grid {
+    max-width: 680px;
+  }
+
+
+  .steps-flow {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 40px 32px;
+  }
+
+
+  .trust-section,
+  .trust-content {
+    min-height: 540px;
+  }
+
+
+  .service-area-container {
+    grid-template-columns: 1fr;
+  }
+
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   6. MOBILE GRANDE
+   600px - 768px
+========================================================= */
+
+@media (min-width: 600px) and (max-width: 768px) {
+
+  .header-container {
+    min-height: 64px;
+  }
+
+
+  .hero {
+    padding-top: 28px;
+    padding-bottom: 44px;
+  }
+
+
+  .hero-container {
+    gap: 24px;
+  }
+
+
+  .hero-content h1 {
+    max-width: 640px;
+  }
+
+
+  .hero-subtitle {
+    max-width: 580px;
+  }
+
+
+  .order-form-wrapper {
+    max-width: 620px;
+  }
+
+
+  .products-grid {
+    max-width: 560px;
+  }
+
+
+  .service-map-placeholder {
+    min-height: 300px;
+  }
+
+}
+
+
+/* =========================================================
+   7. MOBILE PADRÃO
+   Até 599px
+========================================================= */
+
+@media (max-width: 599px) {
+
+  :root {
+    --container-padding: 18px;
+  }
+
+
+  .site-header {
+    position: relative;
+  }
+
+
+  .header-container {
+    min-height: 62px;
+  }
+
+
+  .brand-placeholder {
+    min-width: 120px;
+    min-height: 42px;
+
+    padding: 8px 12px;
+  }
+
+
+  .hero {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+
+  .hero-container {
+    gap: 20px;
+  }
+
+
+  .hero-logo-placeholder {
+    width: 140px;
+    min-height: 52px;
+
+    margin-bottom: 18px;
+  }
+
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+
+    line-height: 1.06;
+
+    margin-bottom: 16px;
+  }
+
+
+  .hero-subtitle {
+    font-size: 0.98rem;
+
+    line-height: 1.5;
+  }
+
+
+  .order-form-wrapper {
+    padding: 20px;
+
+    border-radius: 18px;
+  }
+
+
+  .order-form-header {
+    margin-bottom: 20px;
+  }
+
+
+  .order-form-header h2 {
+    font-size: 1.5rem;
+  }
+
+
+  .form-step {
+    gap: 18px;
+  }
+
+
+  .selection-card {
+    min-height: 56px;
+  }
+
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    min-height: 48px;
+
+    font-size: 16px;
+  }
+
+
+  .products-grid {
+    gap: 18px;
+  }
+
+
+  .product-card {
+    border-radius: 18px;
+  }
+
+
+  .step-item {
+    padding-bottom: 42px;
+  }
+
+
+  .step-icon-placeholder {
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .step-item h3 {
+    font-size: 1.05rem;
+  }
+
+
+  .step-item p {
+    max-width: 260px;
+
+    font-size: 0.9rem;
+  }
+
+
+  .trust-section,
+  .trust-content {
+    min-height: 500px;
+  }
+
+
+  .trust-copy {
+    padding-top: 150px;
+    padding-bottom: 40px;
+  }
+
+
+  .trust-copy h2 {
+    font-size: clamp(2.1rem, 11vw, 3rem);
+
+    margin-bottom: 18px;
+  }
+
+
+  .trust-copy p {
+    font-size: 0.96rem;
+  }
+
+
+  .service-area-content h2 {
+    font-size: clamp(1.8rem, 9vw, 2.6rem);
+  }
+
+
+  .service-area-list {
+    gap: 8px;
+  }
+
+
+  .service-area-list li {
+    min-height: 36px;
+
+    padding: 8px 12px;
+
+    font-size: 0.8rem;
+  }
+
+
+  .service-map-placeholder {
+    min-height: 270px;
+  }
+
+
+  .faq-container {
+    width: min(
+      calc(100% - 28px),
+      var(--container-width)
+    );
+  }
+
+
+  .accordion-trigger {
+    padding: 18px;
+  }
+
+
+  .accordion-trigger > span:first-child {
+    font-size: 0.92rem;
+  }
+
+
+  .accordion-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  .accordion-content {
+    padding:
+      0
+      18px
+      18px;
+  }
+
+
+  .accordion-content p {
+    font-size: 0.9rem;
+  }
+
+
+  .final-cta h2 {
+    font-size: clamp(1.9rem, 9vw, 2.7rem);
+  }
+
+
+  .final-cta p {
+    font-size: 0.95rem;
+  }
+
+
+  .footer-container {
+    padding-top: 40px;
+    padding-bottom: 32px;
+  }
+
+
+  .footer-logo-placeholder {
+    width: 150px;
+    min-height: 56px;
+  }
+
+
+  .footer-bottom {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+}
+
+
+/* =========================================================
+   8. MOBILE PEQUENO
+   Até 420px
+========================================================= */
+
+@media (max-width: 420px) {
+
+  :root {
+    --container-padding: 16px;
+  }
+
+
+  .hero {
+    padding-top: 16px;
+  }
+
+
+  .hero-content h1 {
+    font-size: clamp(1.9rem, 10vw, 2.65rem);
+  }
+
+
+  .hero-subtitle {
+    font-size: 0.94rem;
+  }
+
+
+  .order-form-wrapper {
+    padding: 18px;
+
+    border-radius: 16px;
+  }
+
+
+  .option-grid-two {
+    gap: 10px;
+  }
+
+
+  .selection-card {
+    min-height: 54px;
+
+    padding: 12px;
+  }
+
+
+  .selection-card span {
+    font-size: 1rem;
+  }
+
+
+  .button {
+    min-height: 48px;
+
+    font-size: 0.95rem;
+  }
+
+
+  .products-grid {
+    max-width: 100%;
+  }
+
+
+  .product-card h3 {
+    padding: 14px 16px;
+
+    font-size: 1rem;
+  }
+
+
+  .trust-copy {
+    padding-top: 130px;
+    padding-bottom: 36px;
+  }
+
+
+  .service-map-placeholder {
+    min-height: 250px;
+  }
+
+
+  .accordion-trigger {
+    padding: 16px;
+  }
+
+
+  .accordion-content {
+    padding:
+      0
+      16px
+      16px;
+  }
+
+
+  .final-cta .button {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   9. TELAS MUITO PEQUENAS
+   Até 360px
+========================================================= */
+
+@media (max-width: 360px) {
+
+  :root {
+    --container-padding: 14px;
+  }
+
+
+  .hero-content h1 {
+    font-size: 1.85rem;
+  }
+
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+
+  .order-form-wrapper {
+    padding: 16px;
+  }
+
+
+  .selection-card span {
+    font-size: 0.95rem;
+  }
+
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding-inline: 12px;
+  }
+
+
+  .service-area-list li {
+    font-size: 0.76rem;
+  }
+
+
+  .trust-copy h2 {
+    font-size: 2rem;
+  }
+
+}
+
+
+/* =========================================================
+   10. TELAS BAIXAS
+   Notebook / celular em landscape
+========================================================= */
+
+@media (max-height: 700px) and (min-width: 769px) {
+
+  .hero {
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+
+  .hero-logo-placeholder {
+    margin-bottom: 18px;
+  }
+
+
+  .hero-content h1 {
+    margin-bottom: 16px;
+  }
+
+
+  .order-form-wrapper {
+    padding: 24px;
+  }
+
+
+  .order-form-header {
+    margin-bottom: 20px;
+  }
+
+
+  .form-step {
+    gap: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   11. MOBILE EM LANDSCAPE
+========================================================= */
+
+@media (max-height: 520px) and (max-width: 900px) {
+
+  .hero {
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+
+
+  .hero-container {
+    gap: 20px;
+  }
+
+
+  .trust-section,
+  .trust-content {
+    min-height: 420px;
+  }
+
+
+  .trust-copy {
+    padding-top: 100px;
+    padding-bottom: 32px;
+  }
+
+}
+
+
+/* =========================================================
+   12. AJUSTE DA PRIMEIRA DOBRA NO MOBILE
+   A ideia é já deixar parte do formulário visível
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .hero-content {
+    margin-bottom: 0;
+  }
+
+
+  .hero-logo-placeholder {
+    margin-bottom: 16px;
+  }
+
+
+  .hero-content h1 {
+    margin-bottom: 14px;
+  }
+
+
+  .hero-subtitle {
+    margin-bottom: 0;
+  }
+
+
+  .order-form-wrapper {
+    margin-top: 0;
+  }
+
+}
+
+
+/* =========================================================
+   13. DISPOSITIVOS COM HOVER REAL
+========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .product-card:hover {
+    transform: translateY(-4px);
+  }
+
+
+  .button:hover {
+    transform: translateY(-1px);
+  }
+
+}
+
+
+/* =========================================================
+   14. DISPOSITIVOS TOUCH
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .button:hover,
+  .product-card:hover {
+    transform: none;
+  }
+
+
+  .main-nav a::after {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   15. PREFERÊNCIA POR MENOS MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .product-card,
+  .button,
+  .accordion-icon,
+  .accordion-trigger {
+    transition: none !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    width: 140px;
+    max-height: 46px;
+  }
+}
