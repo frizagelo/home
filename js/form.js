@@ -1,3 +1,5 @@
+import { sendOrderToWebhook } from "./webhook.js";
+
 /* =========================================================
    FRIZA GELO
    FORM.JS
@@ -118,6 +120,9 @@ if (!form) {
   const numberInput =
     document.querySelector("#numero");
 
+  const complementInput =
+    document.querySelector("#complemento");
+
 
   /* Contato */
 
@@ -126,6 +131,12 @@ if (!form) {
 
   const whatsappInput =
     document.querySelector("#whatsapp");
+
+  const observationInput =
+    document.querySelector("#observacao");
+
+  const submitButton =
+    document.querySelector("#submit-order");
 
   const paymentInputs =
     form.querySelectorAll(
@@ -609,8 +620,8 @@ if (!form) {
 
             <span class="order-summary-old-price">
               ${formatCurrency(
-        CONFIG.shipping.fixedPrice
-      )}
+                CONFIG.shipping.fixedPrice
+              )}
             </span>
 
             <strong class="order-summary-free">
@@ -633,8 +644,8 @@ if (!form) {
 
         <strong>
           ${formatCurrency(
-      order.shippingPrice
-    )}
+            order.shippingPrice
+          )}
         </strong>
 
       </div>
@@ -707,8 +718,8 @@ if (!form) {
 
           <strong>
             ${formatCurrency(
-        CONFIG.shipping.fixedPrice
-      )}
+              CONFIG.shipping.fixedPrice
+            )}
           </strong>
 
         </div>
@@ -799,8 +810,8 @@ if (!form) {
       const delivery =
         order.deliveryDate
           ? formatDateBR(
-            order.deliveryDate
-          )
+              order.deliveryDate
+            )
           : "Não informada";
 
 
@@ -809,8 +820,10 @@ if (!form) {
           ? order.selectedCity
           : "Não confirmada";
 
+
       const neighborhood =
         neighborhoodInput?.value.trim() || "";
+
 
       const deliveryLocation =
         neighborhood
@@ -869,8 +882,8 @@ if (!form) {
 
           <strong>
             ${formatCurrency(
-      order.subtotal
-    )}
+              order.subtotal
+            )}
           </strong>
 
         </div>
@@ -892,8 +905,8 @@ if (!form) {
 
         <strong>
           ${formatCurrency(
-      order.total
-    )}
+            order.total
+          )}
         </strong>
 
       </div>
@@ -1777,12 +1790,151 @@ if (!form) {
 
 
   /* =========================================================
-     25. ENVIO
+     25. PAYLOAD DO PEDIDO
+  ========================================================= */
+
+  function getSelectedPayment() {
+
+    return form.querySelector(
+      'input[name="forma_pagamento"]:checked'
+    )?.value || "";
+  }
+
+
+  function buildOrderPayload() {
+
+    const order =
+      getOrderData();
+
+
+    return {
+      schemaVersion: 1,
+
+      origem: "site-friza",
+
+      criadoEm:
+        new Date().toISOString(),
+
+      cliente: {
+        nome:
+          nameInput?.value.trim() || "",
+
+        whatsapp:
+          whatsappInput?.value.trim() || ""
+      },
+
+      pedido: {
+        produtos: {
+          gelo5kg: {
+            quantidade:
+              order.amount5kg,
+
+            pesoUnitarioKg:
+              CONFIG.products["5kg"].weightKg,
+
+            precoUnitario:
+              CONFIG.products["5kg"].price
+          },
+
+          gelo10kg: {
+            quantidade:
+              order.amount10kg,
+
+            pesoUnitarioKg:
+              CONFIG.products["10kg"].weightKg,
+
+            precoUnitario:
+              CONFIG.products["10kg"].price
+          }
+        },
+
+        totalSacos:
+          order.totalBags,
+
+        pesoTotalKg:
+          order.totalWeight,
+
+        dataEntrega:
+          order.deliveryDate,
+
+        subtotal:
+          order.subtotal,
+
+        frete:
+          order.shippingPrice,
+
+        freteGratis:
+          order.freeShippingApplied,
+
+        total:
+          order.total
+      },
+
+      entrega: {
+        cep:
+          cepInput?.value.trim() || "",
+
+        cidade:
+          cityInput?.value.trim() || "",
+
+        uf:
+          stateInput?.value.trim() || "",
+
+        bairro:
+          neighborhoodInput?.value.trim() || "",
+
+        rua:
+          streetInput?.value.trim() || "",
+
+        numero:
+          numberInput?.value.trim() || "",
+
+        complemento:
+          complementInput?.value.trim() || ""
+      },
+
+      pagamento: {
+        forma:
+          getSelectedPayment()
+      },
+
+      observacao:
+        observationInput?.value.trim() || ""
+    };
+  }
+
+
+  function setSubmitting(isSubmitting) {
+
+    if (!submitButton) {
+      return;
+    }
+
+
+    submitButton.disabled =
+      isSubmitting;
+
+
+    submitButton.classList.toggle(
+      "is-loading",
+      isSubmitting
+    );
+
+
+    submitButton.setAttribute(
+      "aria-busy",
+      String(isSubmitting)
+    );
+  }
+
+
+  /* =========================================================
+     26. ENVIO
   ========================================================= */
 
   form.addEventListener(
     "submit",
-    (event) => {
+    async (event) => {
 
       event.preventDefault();
 
@@ -1817,29 +1969,65 @@ if (!form) {
       }
 
 
-      /*
-        Mantemos o resumo sincronizado
-        antes da confirmação final.
-      */
-
       updateOrderSummaries();
 
+      clearFormFeedback();
 
-      /*
-        Integração real do pedido
-        entra na próxima etapa.
-      */
 
-      showFormFeedback(
-        "Pedido preenchido corretamente. Agora falta integrar o envio definitivo.",
-        "success"
-      );
+      const payload =
+        buildOrderPayload();
+
+
+      try {
+
+        setSubmitting(true);
+
+
+        showFormFeedback(
+          "Enviando seu pedido...",
+          "loading"
+        );
+
+
+        const result =
+          await sendOrderToWebhook(
+            payload
+          );
+
+
+        showFormFeedback(
+          result?.message ||
+          "Pedido enviado com sucesso. Em breve confirmaremos pelo WhatsApp.",
+          "success"
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Erro ao enviar pedido:",
+          error
+        );
+
+
+        showFormFeedback(
+          "Não foi possível enviar o pedido agora. Tente novamente em instantes.",
+          "error"
+        );
+
+
+      } finally {
+
+        setSubmitting(false);
+
+      }
+
     }
   );
 
 
   /* =========================================================
-     26. INICIALIZAÇÃO
+     27. INICIALIZAÇÃO
   ========================================================= */
 
   setMinimumDeliveryDate();
