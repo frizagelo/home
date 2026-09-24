@@ -118,6 +118,9 @@
 .order-form-wrapper {
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
 
   padding: var(--space-8);
@@ -135,6 +138,15 @@
 
 .order-form-header {
   margin-bottom: var(--space-8);
+}
+
+
+#order-form {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  width: 100%;
 }
 
 
@@ -174,7 +186,7 @@
   display: flex;
 
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   gap: var(--space-2);
 
@@ -236,7 +248,28 @@
   display: flex;
   flex-direction: column;
 
+  min-width: 0;
+
   gap: var(--space-6);
+}
+
+
+@media (min-width: 769px) {
+
+  /* Etapa 1 fica com altura natural para não criar
+     espaço vazio abaixo do botão Continuar. */
+  .form-step {
+    min-height: auto;
+  }
+
+
+  /* Etapas 2 e 3 mantêm uma altura mínima mais estável,
+     pois possuem mais conteúdo e campos. */
+  .form-step[data-step="2"],
+  .form-step[data-step="3"] {
+    min-height: 610px;
+  }
+
 }
 
 
@@ -304,6 +337,11 @@
   min-height: 110px;
 
   resize: vertical;
+}
+
+
+#observacao {
+  min-height: 88px;
 }
 
 
@@ -504,6 +542,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     minmax(0, 1.2fr);
 
   gap: var(--space-3);
+
+  margin-top: auto;
 }
 
 
@@ -781,6 +821,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .order-summary-final {
+  border-color: rgba(31, 120, 209, 0.18);
+
   background:
     rgba(234, 246, 253, 0.72);
 }
@@ -838,6 +880,49 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: var(--text-sm);
 
   color: var(--color-text-muted);
+}
+
+
+/* Data e cidade no resumo final */
+
+.order-summary-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-3);
+}
+
+
+.order-summary-detail {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  min-width: 0;
+}
+
+
+.order-summary-detail span {
+  font-size: var(--text-xs);
+
+  color: var(--color-text-muted);
+}
+
+
+.order-summary-detail strong {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+
+  line-height: 1.35;
+
+  color: var(--color-text-strong);
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 
@@ -1616,9 +1701,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
   .form-progress {
+    flex-wrap: wrap;
+
     gap: 6px;
 
     font-size: var(--text-xs);
+  }
+
+
+  .form-step {
+    min-height: 0;
   }
 
 
@@ -1820,6 +1912,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .form-row-city-state {
     grid-template-columns:
       1fr;
+  }
+
+
+  .order-summary-details {
+    grid-template-columns: 1fr;
+
+    gap: var(--space-2);
+  }
+
+
+  .order-summary-detail strong {
+    white-space: normal;
   }
 
 

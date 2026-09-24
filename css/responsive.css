@@ -2,6 +2,15 @@
    FRIZA GELO
    RESPONSIVE.CSS
    Ajustes finos de responsividade
+
+   Princípios:
+   - mobile first no comportamento visual do hero/formulário;
+   - respiro lateral consistente;
+   - hero centralizado em telas grandes;
+   - formulário sem colar nas bordas;
+   - desktop preserva a experiência ampla e organizada;
+   - componentes internos continuam sendo responsabilidade
+     principal do components.css.
 ========================================================= */
 
 
@@ -16,6 +25,7 @@
     --container-width: 1280px;
   }
 
+
   .hero {
     min-height: 720px;
 
@@ -26,15 +36,21 @@
 
   .hero-container {
     width: 100%;
+    max-width: 1120px;
+
+    margin-inline: auto;
+
+    padding-inline: 28px;
   }
 
 
   .hero-content h1 {
-    max-width: 720px;
+    max-width: 680px;
   }
 
 
   .order-form-wrapper {
+    width: 100%;
     max-width: 520px;
 
     justify-self: end;
@@ -66,12 +82,23 @@
 
 @media (min-width: 1200px) and (max-width: 1439px) {
 
+  .hero-container {
+    width: 100%;
+    max-width: 1120px;
+
+    margin-inline: auto;
+
+    padding-inline: 28px;
+  }
+
+
   .hero-content h1 {
     max-width: 640px;
   }
 
 
   .order-form-wrapper {
+    width: 100%;
     max-width: 500px;
 
     justify-self: end;
@@ -92,17 +119,29 @@
       minmax(0, 1fr)
       minmax(380px, 0.9fr);
 
+    width: 100%;
+    max-width: 1040px;
+
+    margin-inline: auto;
+
     gap: 48px;
+
+    padding-inline: 24px;
   }
 
 
   .hero-content h1 {
+    max-width: 600px;
+
     font-size: clamp(2.8rem, 5vw, 4rem);
   }
 
 
   .order-form-wrapper {
-    padding: var(--space-6);
+    width: 100%;
+    max-width: 480px;
+
+    justify-self: end;
   }
 
 
@@ -151,11 +190,19 @@
   .hero-container {
     grid-template-columns: 1fr;
 
+    width: 100%;
+    max-width: 760px;
+
+    margin-inline: auto;
+
     gap: 36px;
+
+    padding-inline: 24px;
   }
 
 
   .hero-content {
+    width: 100%;
     max-width: 760px;
   }
 
@@ -171,7 +218,10 @@
 
 
   .order-form-wrapper {
+    width: 100%;
     max-width: 720px;
+
+    justify-self: stretch;
   }
 
 
@@ -220,11 +270,19 @@
   .hero-container {
     grid-template-columns: 1fr;
 
+    width: 100%;
+    max-width: 700px;
+
+    margin-inline: auto;
+
     gap: 32px;
+
+    padding-inline: 20px;
   }
 
 
   .hero-content {
+    width: 100%;
     max-width: 700px;
   }
 
@@ -235,7 +293,10 @@
 
 
   .order-form-wrapper {
+    width: 100%;
     max-width: 680px;
+
+    justify-self: stretch;
   }
 
 
@@ -271,7 +332,94 @@
 
 
 /* =========================================================
-   6. MOBILE GRANDE
+   6. MOBILE / TABLET VERTICAL
+   Até 768px
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .brand-logo {
+    width: 140px;
+    max-height: 46px;
+  }
+
+
+  .hero-content {
+    width: 100%;
+    max-width: none;
+
+    margin-bottom: 0;
+  }
+
+
+  .hero-container {
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    max-width: none;
+
+    margin-inline: auto;
+
+    padding-inline: 20px;
+
+    gap: 28px;
+  }
+
+
+  .hero-logo-placeholder {
+    margin-bottom: 18px;
+  }
+
+
+  .hero-content h1 {
+    max-width: 100%;
+
+    margin-bottom: 16px;
+  }
+
+
+  .hero-title-small {
+    white-space: normal;
+  }
+
+
+  .hero-subtitle {
+    max-width: 100%;
+
+    margin-bottom: 0;
+  }
+
+
+  .order-form-wrapper {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    justify-self: stretch;
+  }
+
+
+  .order-form-wrapper,
+  .order-form-wrapper * {
+    min-width: 0;
+  }
+
+
+  .service-area-container {
+    grid-template-columns: 1fr;
+  }
+
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   7. MOBILE GRANDE
    600px - 768px
 ========================================================= */
 
@@ -289,22 +437,42 @@
 
 
   .hero-container {
-    gap: 24px;
+    gap: 28px;
+
+    padding-inline: 24px;
+  }
+
+
+  .hero-content {
+    width: 100%;
+    max-width: 620px;
+
+    margin-inline: auto;
   }
 
 
   .hero-content h1 {
-    max-width: 640px;
+    max-width: 620px;
   }
 
 
   .hero-subtitle {
-    max-width: 580px;
+    max-width: 620px;
+  }
+
+
+  .hero-logo-placeholder {
+    margin-left: 0;
   }
 
 
   .order-form-wrapper {
+    width: 100%;
     max-width: 620px;
+
+    margin-inline: auto;
+
+    justify-self: center;
   }
 
 
@@ -321,7 +489,7 @@
 
 
 /* =========================================================
-   7. MOBILE PADRÃO
+   8. MOBILE PADRÃO
    Até 599px
 ========================================================= */
 
@@ -342,22 +510,16 @@
   }
 
 
-  .brand-placeholder {
-    min-width: 120px;
-    min-height: 42px;
-
-    padding: 8px 12px;
-  }
-
-
   .hero {
-    padding-top: 20px;
-    padding-bottom: 40px;
+    padding-top: 24px;
+    padding-bottom: 44px;
   }
 
 
   .hero-container {
-    gap: 20px;
+    gap: 24px;
+
+    padding-inline: 20px;
   }
 
 
@@ -370,22 +532,33 @@
 
 
   .hero-content h1 {
-    font-size: clamp(2rem, 10vw, 3rem);
-
-    line-height: 1.06;
+    max-width: 100%;
 
     margin-bottom: 16px;
+
+    font-size:
+      clamp(
+        2rem,
+        9.2vw,
+        2.85rem
+      );
+
+    line-height: 1.05;
   }
 
 
   .hero-subtitle {
-    font-size: 0.98rem;
+    max-width: 34rem;
 
-    line-height: 1.5;
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 
 
   .order-form-wrapper {
+    width: 100%;
+    max-width: 100%;
+
     padding: 20px;
 
     border-radius: 18px;
@@ -393,31 +566,12 @@
 
 
   .order-form-header {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
 
   .order-form-header h2 {
     font-size: 1.5rem;
-  }
-
-
-  .form-step {
-    gap: 18px;
-  }
-
-
-  .selection-card {
-    min-height: 56px;
-  }
-
-
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    min-height: 48px;
-
-    font-size: 16px;
   }
 
 
@@ -469,9 +623,14 @@
 
 
   .trust-copy h2 {
-    font-size: clamp(2.1rem, 11vw, 3rem);
-
     margin-bottom: 18px;
+
+    font-size:
+      clamp(
+        2.1rem,
+        11vw,
+        3rem
+      );
   }
 
 
@@ -481,7 +640,12 @@
 
 
   .service-area-content h2 {
-    font-size: clamp(1.8rem, 9vw, 2.6rem);
+    font-size:
+      clamp(
+        1.8rem,
+        9vw,
+        2.6rem
+      );
   }
 
 
@@ -493,7 +657,9 @@
   .service-area-list li {
     min-height: 36px;
 
-    padding: 8px 12px;
+    padding:
+      8px
+      12px;
 
     font-size: 0.8rem;
   }
@@ -505,10 +671,11 @@
 
 
   .faq-container {
-    width: min(
-      calc(100% - 28px),
-      var(--container-width)
-    );
+    width:
+      min(
+        calc(100% - 28px),
+        var(--container-width)
+      );
   }
 
 
@@ -542,7 +709,12 @@
 
 
   .final-cta h2 {
-    font-size: clamp(1.9rem, 9vw, 2.7rem);
+    font-size:
+      clamp(
+        1.9rem,
+        9vw,
+        2.7rem
+      );
   }
 
 
@@ -552,6 +724,8 @@
 
 
   .footer-container {
+    grid-template-columns: 1fr;
+
     padding-top: 40px;
     padding-bottom: 32px;
   }
@@ -564,6 +738,10 @@
 
 
   .footer-bottom {
+    flex-direction: column;
+
+    align-items: flex-start;
+
     padding-top: 20px;
     padding-bottom: 20px;
   }
@@ -572,7 +750,7 @@
 
 
 /* =========================================================
-   8. MOBILE PEQUENO
+   9. MOBILE PEQUENO
    Até 420px
 ========================================================= */
 
@@ -584,17 +762,30 @@
 
 
   .hero {
-    padding-top: 16px;
+    padding-top: 20px;
+  }
+
+
+  .hero-container {
+    gap: 22px;
+
+    padding-inline: 16px;
   }
 
 
   .hero-content h1 {
-    font-size: clamp(1.9rem, 10vw, 2.65rem);
+    font-size:
+      clamp(
+        1.9rem,
+        9.6vw,
+        2.55rem
+      );
   }
 
 
   .hero-subtitle {
     font-size: 0.94rem;
+    line-height: 1.55;
   }
 
 
@@ -605,20 +796,8 @@
   }
 
 
-  .option-grid-two {
-    gap: 10px;
-  }
-
-
-  .selection-card {
-    min-height: 54px;
-
-    padding: 12px;
-  }
-
-
-  .selection-card span {
-    font-size: 1rem;
+  .order-form-header {
+    margin-bottom: 22px;
   }
 
 
@@ -635,7 +814,9 @@
 
 
   .product-card h3 {
-    padding: 14px 16px;
+    padding:
+      14px
+      16px;
 
     font-size: 1rem;
   }
@@ -673,7 +854,7 @@
 
 
 /* =========================================================
-   9. TELAS MUITO PEQUENAS
+   10. TELAS MUITO PEQUENAS
    Até 360px
 ========================================================= */
 
@@ -681,6 +862,11 @@
 
   :root {
     --container-padding: 14px;
+  }
+
+
+  .hero-container {
+    padding-inline: 14px;
   }
 
 
@@ -699,18 +885,6 @@
   }
 
 
-  .selection-card span {
-    font-size: 0.95rem;
-  }
-
-
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    padding-inline: 12px;
-  }
-
-
   .service-area-list li {
     font-size: 0.76rem;
   }
@@ -724,13 +898,15 @@
 
 
 /* =========================================================
-   10. TELAS BAIXAS
-   Notebook / celular em landscape
+   11. TELAS BAIXAS
+   Notebook / desktop baixo
 ========================================================= */
 
 @media (max-height: 700px) and (min-width: 769px) {
 
   .hero {
+    min-height: auto;
+
     padding-top: 40px;
     padding-bottom: 48px;
   }
@@ -764,12 +940,14 @@
 
 
 /* =========================================================
-   11. MOBILE EM LANDSCAPE
+   12. MOBILE EM LANDSCAPE
 ========================================================= */
 
 @media (max-height: 520px) and (max-width: 900px) {
 
   .hero {
+    min-height: auto;
+
     padding-top: 24px;
     padding-bottom: 32px;
   }
@@ -789,40 +967,6 @@
   .trust-copy {
     padding-top: 100px;
     padding-bottom: 32px;
-  }
-
-}
-
-
-/* =========================================================
-   12. AJUSTE DA PRIMEIRA DOBRA NO MOBILE
-   A ideia é já deixar parte do formulário visível
-========================================================= */
-
-@media (max-width: 768px) {
-
-  .hero-content {
-    margin-bottom: 0;
-  }
-
-
-  .hero-logo-placeholder {
-    margin-bottom: 16px;
-  }
-
-
-  .hero-content h1 {
-    margin-bottom: 14px;
-  }
-
-
-  .hero-subtitle {
-    margin-bottom: 0;
-  }
-
-
-  .order-form-wrapper {
-    margin-top: 0;
   }
 
 }
@@ -874,15 +1018,10 @@
   .product-card,
   .button,
   .accordion-icon,
-  .accordion-trigger {
+  .accordion-trigger,
+  .selection-card,
+  .form-progress-item {
     transition: none !important;
   }
 
-}
-
-@media (max-width: 768px) {
-  .brand-logo {
-    width: 140px;
-    max-height: 46px;
-  }
 }
