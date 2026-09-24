@@ -122,6 +122,44 @@
 }
 
 
+/* Título principal do hero
+   Estrutura esperada no HTML:
+   <h1 class="hero-title">
+     <span class="hero-title-small">Gelo com entrega em</span>
+     <span class="hero-title-highlight">Salvador e Região</span>
+   </h1>
+*/
+
+.hero-title {
+  max-width: 680px;
+
+  font-size: clamp(3rem, 5vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+
+  color: var(--color-navy);
+}
+
+
+.hero-title-small {
+  display: block;
+
+  font-size: 0.78em;
+  line-height: 1.05;
+
+  white-space: nowrap;
+}
+
+
+.hero-title-highlight {
+  display: block;
+
+  margin-top: 0.06em;
+
+  color: var(--color-blue);
+}
+
+
 .hero-subtitle {
   max-width: 620px;
 
@@ -774,6 +812,22 @@
   }
 
 
+  .hero-title {
+    font-size: clamp(2.55rem, 7vw, 3.8rem);
+    line-height: 1;
+  }
+
+
+  .hero-title-small {
+    font-size: 0.76em;
+  }
+
+
+  .hero-title-highlight {
+    margin-top: 0.08em;
+  }
+
+
   .hero-subtitle {
     font-size: 1rem;
 
@@ -941,6 +995,28 @@
 
   .hero-container {
     gap: var(--space-6);
+  }
+
+
+  .hero-title {
+    font-size: clamp(2.2rem, 9vw, 2.8rem);
+    letter-spacing: -0.04em;
+  }
+
+
+  .hero-title-small {
+    font-size: 0.72em;
+  }
+
+
+  .hero-title-highlight {
+    margin-top: 0.1em;
+  }
+
+
+  .hero-subtitle {
+    font-size: 0.98rem;
+    line-height: 1.5;
   }
 
 
