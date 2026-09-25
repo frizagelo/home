@@ -52,6 +52,9 @@ if (!form) {
   const currentStepElement =
     document.querySelector("#current-step");
 
+  const formWrapper =
+    form.closest(".order-form-wrapper");
+
 
   /* Navegação */
 
@@ -149,6 +152,8 @@ if (!form) {
   const formFeedback =
     document.querySelector("#form-feedback");
 
+  const mobileOrderCTA =
+    document.querySelector("#mobile-order-cta");
 
   /* Estado */
 
@@ -161,6 +166,8 @@ if (!form) {
   const originalSubmitButtonText =
     submitButton?.textContent.trim() ||
     "Enviar pedido";
+
+  let lastResolvedCEP = "";
 
 
   /* =========================================================
@@ -224,6 +231,72 @@ if (!form) {
     }
 
     return quantity;
+  }
+
+
+  function closeMobileKeyboard() {
+
+    const activeElement =
+      document.activeElement;
+
+    if (
+      activeElement instanceof HTMLElement
+    ) {
+      activeElement.blur();
+    }
+  }
+
+
+  function scrollFormToTop() {
+
+    const target =
+      formWrapper || form;
+
+    const headerOffset = 80;
+
+    const targetTop =
+      window.scrollY +
+      target.getBoundingClientRect().top -
+      headerOffset;
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: "smooth"
+    });
+  }
+
+  function updateMobileOrderCTA() {
+
+    if (!mobileOrderCTA) {
+      return;
+    }
+
+    const isMobile =
+      window.matchMedia(
+        "(max-width: 768px)"
+      ).matches;
+
+    if (!isMobile) {
+      mobileOrderCTA.classList.remove(
+        "is-visible"
+      );
+
+      return;
+    }
+
+
+    const formRect =
+      form.getBoundingClientRect();
+
+    const formIsVisible =
+      formRect.bottom > 0 &&
+      formRect.top < window.innerHeight;
+
+
+    mobileOrderCTA.classList.toggle(
+      "is-visible",
+      !formIsVisible
+    );
   }
 
 
@@ -1094,7 +1167,7 @@ if (!form) {
 
 
   /* =========================================================
-     16. CEP — MÁSCARA
+     16. CEP — MÁSCARA + BUSCA AUTOMÁTICA
   ========================================================= */
 
   function formatCEP(value) {
@@ -1143,14 +1216,16 @@ if (!form) {
 
 
       /*
-        Se o CEP for alterado,
-        a cidade anterior deixa
-        de ser considerada válida.
+        Enquanto o CEP ainda não tem
+        os 8 números, qualquer endereço
+        anterior deixa de ser válido.
       */
 
       if (
         digits.length < 8
       ) {
+
+        lastResolvedCEP = "";
 
         clearAddress();
 
@@ -1159,6 +1234,32 @@ if (!form) {
         );
 
         updateOrderSummaries();
+
+        return;
+      }
+
+
+      /*
+        Assim que o oitavo número
+        é digitado ou colado,
+        consulta automaticamente.
+      */
+
+      if (
+        digits.length === 8 &&
+        digits !== lastResolvedCEP
+      ) {
+
+        /*
+          Caso o usuário substitua
+          um CEP completo por outro.
+        */
+
+        clearAddress();
+
+        updateOrderSummaries();
+
+        fetchAddressByCEP();
       }
     }
   );
@@ -1318,7 +1419,28 @@ if (!form) {
         await response.json();
 
 
+      /*
+        Se o usuário alterar o CEP
+        enquanto a consulta estiver acontecendo,
+        ignoramos a resposta anterior.
+      */
+
+      const currentCEP =
+        cepInput.value.replace(
+          /\D/g,
+          ""
+        );
+
+      if (
+        currentCEP !== cep
+      ) {
+        return false;
+      }
+
+
       if (data.erro) {
+
+        lastResolvedCEP = "";
 
         clearAddress();
 
@@ -1398,6 +1520,10 @@ if (!form) {
       }
 
 
+      lastResolvedCEP =
+        cep;
+
+
       setCEPFeedback(
         "Endereço encontrado.",
         "success"
@@ -1412,12 +1538,19 @@ if (!form) {
       updateOrderSummaries();
 
 
+      /*
+        Leva o usuário diretamente
+        para o campo Número.
+      */
+
       numberInput?.focus();
 
 
       return true;
 
     } catch (error) {
+
+      lastResolvedCEP = "";
 
       console.error(
         "Erro ao consultar CEP:",
@@ -1436,25 +1569,10 @@ if (!form) {
   }
 
 
-  cepInput?.addEventListener(
-    "blur",
-    () => {
-
-      const digits =
-        cepInput.value.replace(
-          /\D/g,
-          ""
-        );
-
-
-      if (
-        digits.length === 8
-      ) {
-        fetchAddressByCEP();
-      }
-    }
-  );
-
+  /*
+    Enter continua funcionando
+    como alternativa.
+  */
 
   cepInput?.addEventListener(
     "keydown",
@@ -1605,8 +1723,9 @@ if (!form) {
 
 
       /*
-        Garante que o CEP foi realmente
-        consultado antes de avançar.
+        Segurança extra:
+        caso o CEP esteja completo mas
+        ainda não tenha sido resolvido.
       */
 
       if (
@@ -1624,13 +1743,6 @@ if (!form) {
         return;
       }
 
-
-      /*
-        O CEP já está validado aqui.
-
-        Portanto o resumo final recebe
-        o frete definitivo.
-      */
 
       updateOrderSummaries();
 
@@ -1991,6 +2103,15 @@ if (!form) {
   function resetOrderForm() {
 
     /*
+      Fecha o teclado no celular.
+    */
+
+    closeMobileKeyboard();
+
+    lastResolvedCEP = "";
+
+
+    /*
       Reseta inputs, radios,
       textarea e demais campos.
     */
@@ -2054,8 +2175,7 @@ if (!form) {
 
 
     /*
-      Recalcula a data mínima caso
-      a página permaneça aberta.
+      Recalcula a data mínima.
     */
 
     setMinimumDeliveryDate();
@@ -2105,6 +2225,22 @@ if (!form) {
 
 
     isSubmitting = false;
+
+
+    /*
+      Depois de voltar para a etapa 1,
+      reposiciona a página no topo
+      do formulário.
+
+      Não focamos nenhum campo para
+      manter o teclado fechado.
+    */
+
+    window.requestAnimationFrame(
+      () => {
+        scrollFormToTop();
+      }
+    );
   }
 
 
@@ -2172,7 +2308,7 @@ if (!form) {
         /*
           Durante a requisição:
           - bloqueia o botão;
-          - ativa o estado de loading;
+          - ativa o loading;
           - impede novos envios.
         */
 
@@ -2186,10 +2322,7 @@ if (!form) {
 
 
         /*
-          O webhook.js valida o status HTTP.
-
-          Qualquer resposta fora da faixa 2xx
-          gera erro e cai no catch.
+          webhook.js valida o status HTTP.
         */
 
         await sendOrderToWebhook(
@@ -2199,19 +2332,11 @@ if (!form) {
 
         /*
           Se chegou aqui,
-          o n8n respondeu com sucesso HTTP.
+          o n8n respondeu com sucesso.
         */
 
         showSubmitSuccess();
 
-
-        /*
-          Não utilizamos a mensagem retornada
-          pelo workflow do n8n.
-
-          A comunicação para o cliente
-          pertence à interface da Friza.
-        */
 
         showFormFeedback(
           "Pedido enviado! Em breve você receberá a confirmação pelo WhatsApp.",
@@ -2223,13 +2348,11 @@ if (!form) {
           Mantém a confirmação visível
           por 4 segundos.
 
-          Durante esse período o botão
-          continua bloqueado.
-
           Depois:
-          - limpa o formulário;
-          - zera o pedido;
-          - volta para a etapa Pedido.
+          - fecha o teclado;
+          - limpa tudo;
+          - volta para Pedido;
+          - sobe até o topo do formulário.
         */
 
         window.setTimeout(
@@ -2258,7 +2381,7 @@ if (!form) {
 
         /*
           Em caso de erro,
-          libera uma nova tentativa.
+          libera nova tentativa.
         */
 
         setSubmitting(false);
@@ -2278,4 +2401,19 @@ if (!form) {
   updateOrderSummaries();
 
   showStep(1);
+
+  updateMobileOrderCTA();
+
+  window.addEventListener(
+    "scroll",
+    updateMobileOrderCTA,
+    {
+      passive: true
+    }
+  );
+
+  window.addEventListener(
+    "resize",
+    updateMobileOrderCTA
+  );
 }
