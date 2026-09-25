@@ -204,6 +204,8 @@
   .hero-content {
     width: 100%;
     max-width: 760px;
+
+    margin-inline: auto;
   }
 
 
@@ -221,7 +223,9 @@
     width: 100%;
     max-width: 720px;
 
-    justify-self: stretch;
+    margin-inline: auto;
+
+    justify-self: center;
   }
 
 
@@ -283,7 +287,9 @@
 
   .hero-content {
     width: 100%;
-    max-width: 700px;
+    max-width: 680px;
+
+    margin-inline: auto;
   }
 
 
@@ -292,11 +298,18 @@
   }
 
 
+  .hero-subtitle {
+    max-width: 680px;
+  }
+
+
   .order-form-wrapper {
     width: 100%;
     max-width: 680px;
 
-    justify-self: stretch;
+    margin-inline: auto;
+
+    justify-self: center;
   }
 
 
@@ -366,11 +379,6 @@
   }
 
 
-  .hero-logo-placeholder {
-    margin-bottom: 18px;
-  }
-
-
   .hero-content h1 {
     max-width: 100%;
 
@@ -419,7 +427,7 @@
 
 
 /* =========================================================
-   7. MOBILE GRANDE
+   7. MOBILE GRANDE / TABLET VERTICAL
    600px - 768px
 ========================================================= */
 
@@ -431,17 +439,21 @@
 
 
   .hero {
-    padding-top: 28px;
-    padding-bottom: 44px;
+    padding-top: 36px;
+    padding-bottom: 48px;
   }
 
 
   .hero-container {
-    gap: 28px;
+    gap: 30px;
 
     padding-inline: 24px;
   }
 
+
+  /*
+    Texto e formulário trabalham no mesmo eixo.
+  */
 
   .hero-content {
     width: 100%;
@@ -458,11 +470,6 @@
 
   .hero-subtitle {
     max-width: 620px;
-  }
-
-
-  .hero-logo-placeholder {
-    margin-left: 0;
   }
 
 
@@ -510,24 +517,21 @@
   }
 
 
+  /*
+    Como não existe mais logo dentro do hero,
+    aumentamos levemente o respiro antes do H1.
+  */
+
   .hero {
-    padding-top: 24px;
+    padding-top: 32px;
     padding-bottom: 44px;
   }
 
 
   .hero-container {
-    gap: 24px;
+    gap: 26px;
 
     padding-inline: 20px;
-  }
-
-
-  .hero-logo-placeholder {
-    width: 140px;
-    min-height: 52px;
-
-    margin-bottom: 18px;
   }
 
 
@@ -570,8 +574,25 @@
   }
 
 
+  /*
+    Reforço do cabeçalho do formulário.
+    O alinhamento principal vem do components.css.
+  */
+
   .order-form-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+
+
+  .form-progress {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+
+  .form-step-indicator {
+    text-align: center;
   }
 
 
@@ -762,12 +783,12 @@
 
 
   .hero {
-    padding-top: 20px;
+    padding-top: 28px;
   }
 
 
   .hero-container {
-    gap: 22px;
+    gap: 24px;
 
     padding-inline: 16px;
   }
@@ -798,6 +819,31 @@
 
   .order-form-header {
     margin-bottom: 22px;
+  }
+
+
+  .order-form-header h2 {
+    font-size: 1.5rem;
+  }
+
+
+  .form-progress {
+    gap: 6px;
+  }
+
+
+  .form-progress-item {
+    font-size: 0.9rem;
+  }
+
+  .form-progress-separator {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+
+  .form-step-indicator {
+    font-size: 0.875rem;
   }
 
 
@@ -885,6 +931,21 @@
   }
 
 
+  .order-form-header h2 {
+    font-size: 1.4rem;
+  }
+
+
+  .form-progress-item {
+    font-size: 0.8rem;
+  }
+
+
+  .form-progress-separator {
+    font-size: 0.75rem;
+  }
+
+
   .service-area-list li {
     font-size: 0.76rem;
   }
@@ -909,11 +970,6 @@
 
     padding-top: 40px;
     padding-bottom: 48px;
-  }
-
-
-  .hero-logo-placeholder {
-    margin-bottom: 18px;
   }
 
 

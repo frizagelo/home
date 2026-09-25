@@ -138,6 +138,8 @@
 
 .order-form-header {
   margin-bottom: var(--space-8);
+
+  text-align: center;
 }
 
 
@@ -165,16 +167,8 @@
 .order-form-header h2 {
   margin-bottom: var(--space-2);
 
-  font-size: clamp(1.6rem, 2vw, 2.1rem);
-}
-
-
-.form-step-indicator {
-  margin-top: var(--space-2);
-
-  font-size: var(--text-sm);
-
-  color: var(--color-text-muted);
+  font-size: clamp(1.7rem, 2vw, 2.15rem);
+  text-align: center;
 }
 
 
@@ -186,13 +180,16 @@
   display: flex;
 
   align-items: center;
+  justify-content: center;
   flex-wrap: nowrap;
 
   gap: var(--space-2);
 
+  width: 100%;
+
   margin-top: var(--space-3);
 
-  font-size: var(--text-sm);
+  font-size: 0.95rem;
 }
 
 
@@ -201,16 +198,18 @@
 
   align-items: center;
 
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
 
   color: var(--color-text-muted);
 
   transition:
-    color var(--transition-fast);
+    color var(--transition-fast),
+    opacity var(--transition-fast);
 }
 
 
-/* Etapa atual — Azul Médio Friza */
+/* Etapa atual */
 
 .form-progress-item.is-active {
   color: var(--color-blue);
@@ -236,7 +235,13 @@
 /* Separadores */
 
 .form-progress-separator {
-  color: var(--color-border-strong);
+  font-size: 1rem;
+
+  font-weight: var(--font-weight-semibold);
+
+  color: var(--color-blue);
+
+  opacity: 0.75;
 }
 
 
@@ -256,15 +261,22 @@
 
 @media (min-width: 769px) {
 
-  /* Etapa 1 fica com altura natural para não criar
-     espaço vazio abaixo do botão Continuar. */
+  /*
+    Etapa 1 fica com altura natural
+    para não criar espaço vazio
+    abaixo do botão Continuar.
+  */
+
   .form-step {
     min-height: auto;
   }
 
 
-  /* Etapas 2 e 3 mantêm uma altura mínima mais estável,
-     pois possuem mais conteúdo e campos. */
+  /*
+    Etapas 2 e 3 mantêm altura
+    mínima mais estável.
+  */
+
   .form-step[data-step="2"],
   .form-step[data-step="3"] {
     min-height: 610px;
@@ -401,7 +413,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .option-grid-two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 }
 
 
@@ -640,7 +653,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   min-height: 72px;
 
-  padding: var(--space-4) var(--space-5);
+  padding:
+    var(--space-4)
+    var(--space-5);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -694,7 +709,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .quantity-stepper {
   display: inline-grid;
 
-  grid-template-columns: 44px 52px 44px;
+  grid-template-columns:
+    44px
+    52px
+    44px;
 
   align-items: center;
 
@@ -799,7 +817,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-.product-quantity-item:has(.quantity-stepper input[value]:not([value="0"])) {
+.product-quantity-item:has(
+  .quantity-stepper input[value]:not([value="0"])
+) {
   border-color: rgba(31, 120, 209, 0.35);
 
   background: var(--color-surface-blue);
@@ -811,7 +831,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 ========================================================= */
 
 .order-summary {
-  padding: var(--space-4) var(--space-5);
+  padding:
+    var(--space-4)
+    var(--space-5);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -932,7 +954,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 100%;
   height: 1px;
 
-  margin: var(--space-3) 0;
+  margin:
+    var(--space-3)
+    0;
 
   background: var(--color-border);
 }
@@ -1037,7 +1061,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .order-summary-benefit {
   margin-top: var(--space-3);
 
-  padding: var(--space-2) var(--space-3);
+  padding:
+    var(--space-2)
+    var(--space-3);
 
   border-radius: var(--radius-sm);
 
@@ -1203,7 +1229,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .product-card h3 {
-  padding: var(--space-5) var(--space-6);
+  padding:
+    var(--space-5)
+    var(--space-6);
 
   font-size: var(--text-lg);
 }
@@ -1275,7 +1303,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   gap: var(--space-3);
 
-  margin: var(--space-6) 0 0;
+  margin:
+    var(--space-6)
+    0
+    0;
 
   list-style: none;
 }
@@ -1288,7 +1319,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   min-height: 40px;
 
-  padding: 0.6rem 0.9rem;
+  padding:
+    0.6rem
+    0.9rem;
 
   border: 1px solid var(--color-border);
 
@@ -1515,29 +1548,52 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
+/*
+  Enquanto o pedido está sendo enviado,
+  o botão recebe um floco de neve girando.
+
+  O texto "Enviando..." é controlado
+  pelo form.js.
+*/
+
 .button.is-loading::after {
-  content: "";
+  content: "❄";
 
-  width: 18px;
-  height: 18px;
+  display: inline-flex;
 
-  border: 2px solid rgba(255, 255, 255, 0.45);
-  border-top-color: var(--color-white);
+  align-items: center;
+  justify-content: center;
 
-  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+
+  flex: 0 0 auto;
+
+  font-size: 1rem;
+  line-height: 1;
+
+  color: var(--color-white);
+
+  transform-origin: center;
 
   animation:
-    button-spinner
-    0.7s
+    button-snowflake-spin
+    0.9s
     linear
     infinite;
 }
 
 
-@keyframes button-spinner {
+@keyframes button-snowflake-spin {
+
+  from {
+    transform: rotate(0deg);
+  }
+
   to {
     transform: rotate(360deg);
   }
+
 }
 
 
@@ -1635,14 +1691,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background:
     var(--color-surface-blue);
 
-  font-size:
-    var(--text-xs);
+  font-size: var(--text-xs);
 
-  font-weight:
-    var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
 
-  color:
-    var(--color-blue);
+  color: var(--color-blue);
 }
 
 
@@ -1701,16 +1754,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
   .form-progress {
+    justify-content: center;
     flex-wrap: wrap;
 
-    gap: 6px;
+    gap: 7px;
 
-    font-size: var(--text-xs);
+    font-size: 0.9rem;
+  }
+
+
+  .form-progress-item {
+    font-size: 0.9rem;
   }
 
 
   .form-step {
     min-height: 0;
+
+    gap: var(--space-5);
   }
 
 
@@ -1719,23 +1780,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
 
-  .form-step {
-    gap: var(--space-5);
-  }
-
-
   .form-actions {
     grid-template-columns: 1fr;
   }
 
 
+  /*
+    No mobile:
+    Voltar fica primeiro.
+    Continuar / Enviar fica abaixo.
+  */
+
   .form-actions .button-secondary {
-    order: 2;
+    order: 1;
   }
 
 
   .form-actions .button-primary {
-    order: 1;
+    order: 2;
   }
 
 
@@ -1846,16 +1908,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .form-progress {
     width: 100%;
 
-    justify-content: flex-start;
+    justify-content: center;
 
-    gap: 5px;
+    gap: 6px;
 
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+
+  .form-progress-item {
+    font-size: 0.85rem;
   }
 
 
   .form-progress-separator {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 
 
@@ -1973,6 +2040,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     width:
       calc(100% - 32px);
+  }
+
+}
+
+
+/* =========================================================
+   29. PREFERÊNCIA POR MENOS MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .button.is-loading::after {
+    animation: none;
   }
 
 }

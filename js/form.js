@@ -154,6 +154,14 @@ if (!form) {
 
   let currentStep = 1;
 
+  let isSubmitting = false;
+
+  const SUCCESS_RESET_DELAY = 4000;
+
+  const originalSubmitButtonText =
+    submitButton?.textContent.trim() ||
+    "Enviar pedido";
+
 
   /* =========================================================
      3. HELPERS
@@ -620,8 +628,8 @@ if (!form) {
 
             <span class="order-summary-old-price">
               ${formatCurrency(
-                CONFIG.shipping.fixedPrice
-              )}
+        CONFIG.shipping.fixedPrice
+      )}
             </span>
 
             <strong class="order-summary-free">
@@ -644,8 +652,8 @@ if (!form) {
 
         <strong>
           ${formatCurrency(
-            order.shippingPrice
-          )}
+      order.shippingPrice
+    )}
         </strong>
 
       </div>
@@ -660,8 +668,25 @@ if (!form) {
   function buildShippingMessage(order) {
 
     /*
+      Cidade já confirmada e não é Salvador.
+
+      Nesse caso não mostramos nenhuma mensagem
+      relacionada ao frete grátis de Salvador.
+      O valor normal da entrega já aparece
+      no resumo do pedido.
+    */
+
+    if (
+      order.hasConfirmedCity &&
+      !order.isSalvador
+    ) {
+      return "";
+    }
+
+
+    /*
       Atingiu 40 kg,
-      mas ainda não informou CEP.
+      mas ainda não informou/confirmou o CEP.
     */
 
     if (
@@ -682,7 +707,8 @@ if (!form) {
 
 
     /*
-      CEP confirmado em Salvador.
+      Salvador confirmado
+      e atingiu os 40 kg.
     */
 
     if (
@@ -701,34 +727,11 @@ if (!form) {
 
 
     /*
-      Atingiu 40 kg,
-      mas não é Salvador.
-    */
-
-    if (
-      order.meetsFreeShippingWeight &&
-      order.hasConfirmedCity &&
-      !order.isSalvador
-    ) {
-
-      return `
-        <div class="order-summary-benefit">
-
-          Entrega para esta cidade:
-
-          <strong>
-            ${formatCurrency(
-              CONFIG.shipping.fixedPrice
-            )}
-          </strong>
-
-        </div>
-      `;
-    }
-
-
-    /*
       Ainda não atingiu 40 kg.
+
+      Essa mensagem aparece:
+      - antes de confirmar a cidade;
+      - ou quando a cidade confirmada é Salvador.
     */
 
     const remaining =
@@ -810,8 +813,8 @@ if (!form) {
       const delivery =
         order.deliveryDate
           ? formatDateBR(
-              order.deliveryDate
-            )
+            order.deliveryDate
+          )
           : "Não informada";
 
 
@@ -882,8 +885,8 @@ if (!form) {
 
           <strong>
             ${formatCurrency(
-              order.subtotal
-            )}
+      order.subtotal
+    )}
           </strong>
 
         </div>
@@ -905,8 +908,8 @@ if (!form) {
 
         <strong>
           ${formatCurrency(
-            order.total
-          )}
+      order.total
+    )}
         </strong>
 
       </div>
@@ -1813,7 +1816,12 @@ if (!form) {
       origem: "site-friza",
 
       criadoEm:
-        new Date().toISOString(),
+        new Date().toLocaleString(
+          "sv-SE",
+          {
+            timeZone: "America/Bahia"
+          }
+        ).replace(" ", "T"),
 
       cliente: {
         nome:
@@ -1904,7 +1912,15 @@ if (!form) {
   }
 
 
-  function setSubmitting(isSubmitting) {
+  /* =========================================================
+     26. ESTADO DE ENVIO
+  ========================================================= */
+
+  function setSubmitting(isLoading) {
+
+    isSubmitting =
+      isLoading;
+
 
     if (!submitButton) {
       return;
@@ -1912,24 +1928,188 @@ if (!form) {
 
 
     submitButton.disabled =
-      isSubmitting;
+      isLoading;
 
 
     submitButton.classList.toggle(
       "is-loading",
-      isSubmitting
+      isLoading
     );
 
 
     submitButton.setAttribute(
       "aria-busy",
-      String(isSubmitting)
+      String(isLoading)
     );
+
+
+    submitButton.textContent =
+      isLoading
+        ? "Enviando..."
+        : originalSubmitButtonText;
+  }
+
+
+  function showSubmitSuccess() {
+
+    if (!submitButton) {
+      return;
+    }
+
+
+    /*
+      Remove o loading.
+
+      O botão permanece desabilitado
+      enquanto a confirmação fica visível.
+    */
+
+    submitButton.classList.remove(
+      "is-loading"
+    );
+
+
+    submitButton.disabled =
+      true;
+
+
+    submitButton.setAttribute(
+      "aria-busy",
+      "false"
+    );
+
+
+    submitButton.textContent =
+      "✓ Pedido enviado";
   }
 
 
   /* =========================================================
-     26. ENVIO
+     27. RESET DO FORMULÁRIO
+  ========================================================= */
+
+  function resetOrderForm() {
+
+    /*
+      Reseta inputs, radios,
+      textarea e demais campos.
+    */
+
+    form.reset();
+
+
+    /*
+      Garante que as quantidades
+      voltem explicitamente para zero.
+    */
+
+    quantityInputs.forEach(
+      (input) => {
+
+        input.value = "0";
+
+        input.setAttribute(
+          "value",
+          "0"
+        );
+
+
+        input
+          .closest(
+            ".product-quantity-item"
+          )
+          ?.classList.remove(
+            "has-quantity"
+          );
+      }
+    );
+
+
+    /*
+      Limpa os campos preenchidos
+      automaticamente pelo ViaCEP.
+    */
+
+    clearAddress();
+
+
+    if (cepInput) {
+      cepInput.value = "";
+    }
+
+
+    if (numberInput) {
+      numberInput.value = "";
+    }
+
+
+    if (complementInput) {
+      complementInput.value = "";
+    }
+
+
+    setCEPFeedback(
+      "Cidade, UF, bairro e rua serão preenchidos pelo CEP."
+    );
+
+
+    /*
+      Recalcula a data mínima caso
+      a página permaneça aberta.
+    */
+
+    setMinimumDeliveryDate();
+
+
+    /*
+      Resumos voltam ao estado inicial.
+    */
+
+    updateOrderSummaries();
+
+
+    /*
+      Remove a mensagem de sucesso.
+    */
+
+    clearFormFeedback();
+
+
+    /*
+      Volta para Pedido.
+    */
+
+    showStep(1);
+
+
+    /*
+      Restaura o botão.
+    */
+
+    if (submitButton) {
+
+      submitButton.disabled =
+        false;
+
+      submitButton.classList.remove(
+        "is-loading"
+      );
+
+      submitButton.removeAttribute(
+        "aria-busy"
+      );
+
+      submitButton.textContent =
+        originalSubmitButtonText;
+    }
+
+
+    isSubmitting = false;
+  }
+
+
+  /* =========================================================
+     28. ENVIO
   ========================================================= */
 
   form.addEventListener(
@@ -1937,6 +2117,15 @@ if (!form) {
     async (event) => {
 
       event.preventDefault();
+
+
+      /*
+        Impede envio duplicado.
+      */
+
+      if (isSubmitting) {
+        return;
+      }
 
 
       if (
@@ -1980,6 +2169,13 @@ if (!form) {
 
       try {
 
+        /*
+          Durante a requisição:
+          - bloqueia o botão;
+          - ativa o estado de loading;
+          - impede novos envios.
+        */
+
         setSubmitting(true);
 
 
@@ -1989,16 +2185,60 @@ if (!form) {
         );
 
 
-        const result =
-          await sendOrderToWebhook(
-            payload
-          );
+        /*
+          O webhook.js valida o status HTTP.
 
+          Qualquer resposta fora da faixa 2xx
+          gera erro e cai no catch.
+        */
+
+        await sendOrderToWebhook(
+          payload
+        );
+
+
+        /*
+          Se chegou aqui,
+          o n8n respondeu com sucesso HTTP.
+        */
+
+        showSubmitSuccess();
+
+
+        /*
+          Não utilizamos a mensagem retornada
+          pelo workflow do n8n.
+
+          A comunicação para o cliente
+          pertence à interface da Friza.
+        */
 
         showFormFeedback(
-          result?.message ||
-          "Pedido enviado com sucesso. Em breve confirmaremos pelo WhatsApp.",
+          "Pedido enviado! Em breve você receberá a confirmação pelo WhatsApp.",
           "success"
+        );
+
+
+        /*
+          Mantém a confirmação visível
+          por 4 segundos.
+
+          Durante esse período o botão
+          continua bloqueado.
+
+          Depois:
+          - limpa o formulário;
+          - zera o pedido;
+          - volta para a etapa Pedido.
+        */
+
+        window.setTimeout(
+          () => {
+
+            resetOrderForm();
+
+          },
+          SUCCESS_RESET_DELAY
         );
 
 
@@ -2011,12 +2251,15 @@ if (!form) {
 
 
         showFormFeedback(
-          "Não foi possível enviar o pedido agora. Tente novamente em instantes.",
+          "Não foi possível enviar o pedido agora. Tente novamente.",
           "error"
         );
 
 
-      } finally {
+        /*
+          Em caso de erro,
+          libera uma nova tentativa.
+        */
 
         setSubmitting(false);
 
@@ -2027,7 +2270,7 @@ if (!form) {
 
 
   /* =========================================================
-     27. INICIALIZAÇÃO
+     29. INICIALIZAÇÃO
   ========================================================= */
 
   setMinimumDeliveryDate();
