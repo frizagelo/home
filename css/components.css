@@ -1219,11 +1219,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-.product-card .product-image-placeholder {
+.product-card .product-image {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  object-fit: cover;
+
   border: 0;
-
   border-bottom: 1px solid var(--color-border);
-
   border-radius: 0;
 }
 
