@@ -116,8 +116,7 @@
 
   .hero-container {
     grid-template-columns:
-      minmax(0, 1fr)
-      minmax(380px, 0.9fr);
+      minmax(0, 1fr) minmax(380px, 0.9fr);
 
     width: 100%;
     max-width: 1040px;
@@ -162,8 +161,7 @@
 
   .service-area-container {
     grid-template-columns:
-      minmax(0, 0.9fr)
-      minmax(380px, 1.1fr);
+      minmax(0, 0.9fr) minmax(380px, 1.1fr);
   }
 
 }
@@ -541,11 +539,9 @@
     margin-bottom: 16px;
 
     font-size:
-      clamp(
-        2rem,
+      clamp(2rem,
         9.2vw,
-        2.85rem
-      );
+        2.85rem);
 
     line-height: 1.05;
   }
@@ -646,12 +642,8 @@
   .trust-copy h2 {
     margin-bottom: 18px;
 
-    font-size:
-      clamp(
-        2.1rem,
-        11vw,
-        3rem
-      );
+    font-size: clamp(2rem, 9.6vw, 2.8rem);
+    line-height: 1.05;
   }
 
 
@@ -662,11 +654,9 @@
 
   .service-area-content h2 {
     font-size:
-      clamp(
-        1.8rem,
+      clamp(1.8rem,
         9vw,
-        2.6rem
-      );
+        2.6rem);
   }
 
 
@@ -679,8 +669,7 @@
     min-height: 36px;
 
     padding:
-      8px
-      12px;
+      8px 12px;
 
     font-size: 0.8rem;
   }
@@ -693,10 +682,8 @@
 
   .faq-container {
     width:
-      min(
-        calc(100% - 28px),
-        var(--container-width)
-      );
+      min(calc(100% - 28px),
+        var(--container-width));
   }
 
 
@@ -705,7 +692,7 @@
   }
 
 
-  .accordion-trigger > span:first-child {
+  .accordion-trigger>span:first-child {
     font-size: 0.92rem;
   }
 
@@ -718,9 +705,7 @@
 
   .accordion-content {
     padding:
-      0
-      18px
-      18px;
+      0 18px 18px;
   }
 
 
@@ -731,11 +716,9 @@
 
   .final-cta h2 {
     font-size:
-      clamp(
-        1.9rem,
+      clamp(1.9rem,
         9vw,
-        2.7rem
-      );
+        2.7rem);
   }
 
 
@@ -796,11 +779,9 @@
 
   .hero-content h1 {
     font-size:
-      clamp(
-        1.9rem,
+      clamp(1.9rem,
         9.6vw,
-        2.55rem
-      );
+        2.55rem);
   }
 
 
@@ -861,8 +842,7 @@
 
   .product-card h3 {
     padding:
-      14px
-      16px;
+      14px 16px;
 
     font-size: 1rem;
   }
@@ -886,9 +866,7 @@
 
   .accordion-content {
     padding:
-      0
-      16px
-      16px;
+      0 16px 16px;
   }
 
 

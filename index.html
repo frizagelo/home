@@ -40,83 +40,49 @@
 
     <link rel="icon" type="image/png" sizes="512x512" href="./assets/icons/android-chrome-512x512.png?v=2" />
 
-<!-- =========================================
+    <!-- =========================================
      OPEN GRAPH
      WhatsApp e redes sociais
 ========================================== -->
 
-<meta property="og:type" content="website" />
+    <meta property="og:type" content="website" />
 
-<meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content="pt_BR" />
 
-<meta property="og:site_name" content="Friza Gelo" />
+    <meta property="og:site_name" content="Friza Gelo" />
 
-<meta
-  property="og:title"
-  content="Gelo em Salvador e Região Metropolitana | Friza Gelo"
-/>
+    <meta property="og:title" content="Gelo em Salvador e Região Metropolitana | Friza Gelo" />
 
-<meta
-  property="og:description"
-  content="Gelo com entrega em Salvador e Região Metropolitana para festas, bares, restaurantes, barracas, eventos e negócios."
-/>
+    <meta property="og:description"
+        content="Gelo com entrega em Salvador e Região Metropolitana para festas, bares, restaurantes, barracas, eventos e negócios." />
 
-<meta
-  property="og:url"
-  content="https://frizagelo.com.br/"
-/>
+    <meta property="og:url" content="https://frizagelo.com.br/" />
 
-<meta
-  property="og:image"
-  content="https://frizagelo.com.br/assets/brand/og-friza-1200x630.jpg?v=4"
-/>
+    <meta property="og:image" content="https://frizagelo.com.br/assets/brand/og-friza-1200x630.jpg?v=4" />
 
-<meta
-  property="og:image:type"
-  content="image/jpeg"
-/>
+    <meta property="og:image:type" content="image/jpeg" />
 
-<meta
-  property="og:image:width"
-  content="1200"
-/>
+    <meta property="og:image:width" content="1200" />
 
-<meta
-  property="og:image:height"
-  content="630"
-/>
+    <meta property="og:image:height" content="630" />
 
-<meta
-  property="og:image:alt"
-  content="Friza Gelo - Gelo com entrega em Salvador e Região"
-/>
+    <meta property="og:image:alt" content="Friza Gelo - Gelo com entrega em Salvador e Região" />
 
 
-<!-- =========================================
+    <!-- =========================================
      TWITTER / X
      Também utilizado por alguns serviços
      ao gerar previews de links
 ========================================== -->
 
-<meta
-  name="twitter:card"
-  content="summary_large_image"
-/>
+    <meta name="twitter:card" content="summary_large_image" />
 
-<meta
-  name="twitter:title"
-  content="Gelo em Salvador e Região Metropolitana | Friza Gelo"
-/>
+    <meta name="twitter:title" content="Gelo em Salvador e Região Metropolitana | Friza Gelo" />
 
-<meta
-  name="twitter:description"
-  content="Gelo com entrega em Salvador e Região Metropolitana para festas, bares, restaurantes, barracas, eventos e negócios."
-/>
+    <meta name="twitter:description"
+        content="Gelo com entrega em Salvador e Região Metropolitana para festas, bares, restaurantes, barracas, eventos e negócios." />
 
-<meta
-  name="twitter:image"
-  content="https://frizagelo.com.br/assets/brand/og-friza-1200x630.jpg?v=4"
-/>
+    <meta name="twitter:image" content="https://frizagelo.com.br/assets/brand/og-friza-1200x630.jpg?v=4" />
 
 
     <!-- =========================================
@@ -821,9 +787,17 @@
     ========================== -->
         <section class="trust-section section" id="operacao">
 
-            <div class="trust-background-placeholder">
-                AQUI VAI A IMAGEM DA OPERAÇÃO DA FRIZA
-            </div>
+            <picture class="trust-background" aria-hidden="true">
+
+                <source media="(max-width: 599px)" srcset="./assets/sections/operacao/operacao-friza-mobile.webp" />
+
+                <source media="(max-width: 768px)" srcset="./assets/sections/operacao/operacao-friza-tablet.webp" />
+
+                <source media="(max-width: 1439px)" srcset="./assets/sections/operacao/operacao-friza-desktop.webp" />
+
+                <img src="./assets/sections/operacao/operacao-friza-xl.webp" alt="" loading="lazy" decoding="async" />
+
+            </picture>
 
 
             <div class="trust-overlay"></div>
@@ -836,12 +810,12 @@
                     <h2>
                         Gelo é simples.
                         <br />
-                        Ficar sem ele não é.
+                        <span>Ficar sem ele não é.</span>
                     </h2>
 
                     <p>
-                        Quando você precisa, o gelo precisa estar lá.
-                        A Friza trabalha para que isso aconteça.
+                        Por isso, a gente cuida para seu pedido sair certo 
+                        e chegar onde você precisa.
                     </p>
 
                 </div>
