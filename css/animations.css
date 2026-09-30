@@ -49,3 +49,19 @@
   }
 
 }
+
+
+
+.accordion-content {
+  overflow: hidden;
+
+  opacity: 0;
+
+  transition:
+    height 0.45s ease,
+    opacity 0.35s ease;
+}
+
+.accordion-content:not([hidden]) {
+  opacity: 1;
+}

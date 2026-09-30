@@ -1059,6 +1059,7 @@
   .button,
   .accordion-icon,
   .accordion-trigger,
+  .accordion-content,
   .selection-card,
   .form-progress-item {
     transition: none !important;
