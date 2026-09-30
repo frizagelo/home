@@ -128,13 +128,11 @@
     padding-inline: 24px;
   }
 
-
   .hero-content h1 {
     max-width: 600px;
 
     font-size: clamp(2.8rem, 5vw, 4rem);
   }
-
 
   .order-form-wrapper {
     width: 100%;
@@ -143,25 +141,30 @@
     justify-self: end;
   }
 
-
   .steps-flow {
     gap: 10px;
   }
-
 
   .step-item h3 {
     font-size: 1.05rem;
   }
 
-
   .step-item p {
     font-size: 0.84rem;
   }
 
-
   .service-area-container {
     grid-template-columns:
       minmax(0, 0.9fr) minmax(380px, 1.1fr);
+  }
+
+  .service-area-list {
+    gap: 8px;
+  }
+
+  .service-area-list li {
+    padding: 8px 10px;
+    font-size: 0.9rem;
   }
 
 }
@@ -661,7 +664,10 @@
 
 
   .service-area-list {
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    gap: 10px 12px;
   }
 
 
@@ -670,7 +676,7 @@
 
     padding:
       8px 12px;
-
+    justify-self: center;
     font-size: 0.8rem;
   }
 
