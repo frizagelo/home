@@ -60,16 +60,12 @@
   padding-bottom: 88px;
 
   background:
-    radial-gradient(
-      circle at top left,
+    radial-gradient(circle at top left,
       rgba(191, 232, 255, 0.35),
-      transparent 38%
-    ),
-    linear-gradient(
-      180deg,
+      transparent 38%),
+    linear-gradient(180deg,
       #ffffff 0%,
-      #f9fcfe 100%
-    );
+      #f9fcfe 100%);
 }
 
 
@@ -87,11 +83,9 @@
   border-radius: 50%;
 
   background:
-    radial-gradient(
-      circle,
+    radial-gradient(circle,
       rgba(31, 120, 209, 0.08),
-      transparent 68%
-    );
+      transparent 68%);
 
   pointer-events: none;
 }
@@ -253,13 +247,7 @@
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1fr)
-    auto
-    minmax(0, 1fr)
-    auto
-    minmax(0, 1fr)
-    auto
-    minmax(0, 1fr);
+    minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
 
   align-items: start;
 
@@ -373,13 +361,11 @@
   inset: 0;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       rgba(4, 28, 52, 0.88) 0%,
       rgba(7, 42, 76, 0.72) 35%,
       rgba(7, 42, 76, 0.30) 68%,
-      rgba(7, 42, 76, 0.08) 100%
-    );
+      rgba(7, 42, 76, 0.08) 100%);
 
   pointer-events: none;
 }
@@ -422,10 +408,8 @@
   color: #ffffff;
 
   background:
-    linear-gradient(
-      transparent 10%,
-      rgba(35, 167, 255, 0.75) 55%
-    );
+    linear-gradient(transparent 10%,
+      rgba(35, 167, 255, 0.75) 55%);
 }
 
 
@@ -546,11 +530,9 @@
   overflow: hidden;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       var(--color-navy) 0%,
-      #0f4f87 100%
-    );
+      #0f4f87 100%);
 }
 
 
@@ -568,11 +550,9 @@
   border-radius: 50%;
 
   background:
-    radial-gradient(
-      circle,
+    radial-gradient(circle,
       rgba(191, 232, 255, 0.18),
-      transparent 65%
-    );
+      transparent 65%);
 }
 
 
@@ -590,11 +570,9 @@
   border-radius: 50%;
 
   background:
-    radial-gradient(
-      circle,
+    radial-gradient(circle,
       rgba(31, 120, 209, 0.2),
-      transparent 68%
-    );
+      transparent 68%);
 }
 
 
@@ -644,9 +622,7 @@
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1.4fr)
-    minmax(180px, 0.8fr)
-    minmax(220px, 0.8fr);
+    minmax(0, 1.4fr) minmax(180px, 0.8fr) minmax(220px, 0.8fr);
 
   gap: clamp(32px, 6vw, 72px);
 
@@ -684,6 +660,23 @@
 
 .footer-contact a:hover {
   color: var(--color-ice);
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-social svg {
+  flex-shrink: 0;
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 
@@ -726,11 +719,11 @@
    10. AJUSTES VISUAIS ENTRE SEÇÕES
 ========================================================= */
 
-.products + .how-it-works,
-.how-it-works + .trust-section,
-.trust-section + .service-area,
-.service-area + .faq,
-.faq + .final-cta {
+.products+.how-it-works,
+.how-it-works+.trust-section,
+.trust-section+.service-area,
+.service-area+.faq,
+.faq+.final-cta {
   scroll-margin-top: 90px;
 }
 
@@ -836,8 +829,7 @@
 
   .steps-flow {
     grid-template-columns:
-      minmax(0, 1fr)
-      minmax(0, 1fr);
+      minmax(0, 1fr) minmax(0, 1fr);
 
     gap: var(--space-10) var(--space-8);
   }
@@ -1019,12 +1011,10 @@
 
   .trust-overlay {
     background:
-      linear-gradient(
-        180deg,
+      linear-gradient(180deg,
         rgba(4, 28, 52, 0.40) 0%,
         rgba(4, 28, 52, 0.68) 42%,
-        rgba(4, 28, 52, 0.92) 100%
-      );
+        rgba(4, 28, 52, 0.92) 100%);
   }
 
 
