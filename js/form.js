@@ -1,5 +1,6 @@
 import { sendOrderToWebhook } from "./webhook.js";
 
+
 /* =========================================================
    FRIZA GELO
    FORM.JS
@@ -12,12 +13,15 @@ if (!form) {
   console.warn("Friza: formulário #order-form não encontrado.");
 } else {
 
+
   /* =========================================================
      1. CONFIGURAÇÃO COMERCIAL
   ========================================================= */
 
   const CONFIG = {
+
     products: {
+
       "5kg": {
         label: "Gelo em cubos 5 kg",
         weightKg: 5,
@@ -29,13 +33,39 @@ if (!form) {
         weightKg: 10,
         price: 14
       }
+
     },
+
 
     shipping: {
       fixedPrice: 8,
       freeShippingCity: "Salvador",
       freeShippingMinimumWeightKg: 40
+    },
+
+
+    delivery: {
+
+      /*
+        Data mínima:
+        1 dia à frente.
+
+        Como o formulário trabalha apenas com data
+        e não com horário, na prática isso significa
+        permitir pedidos a partir de amanhã.
+      */
+
+      minimumDaysAhead: 1,
+
+
+      /*
+        Data máxima:
+        6 meses à frente.
+      */
+
+      maximumMonthsAhead: 6
     }
+
   };
 
 
@@ -46,11 +76,14 @@ if (!form) {
   const steps =
     form.querySelectorAll(".form-step");
 
+
   const progressItems =
     document.querySelectorAll(".form-progress-item");
 
+
   const currentStepElement =
     document.querySelector("#current-step");
+
 
   const formWrapper =
     form.closest(".order-form-wrapper");
@@ -61,11 +94,14 @@ if (!form) {
   const nextButton =
     document.querySelector("#next-step");
 
+
   const previousButton =
     document.querySelector("#previous-step");
 
+
   const nextContactButton =
     document.querySelector("#next-step-contact");
+
 
   const previousContactButton =
     document.querySelector("#previous-step-contact");
@@ -76,13 +112,16 @@ if (!form) {
   const quantityButtons =
     form.querySelectorAll(".quantity-button");
 
+
   const quantityInputs =
     form.querySelectorAll(
       '.quantity-stepper input[type="number"]'
     );
 
+
   const quantity5kg =
     document.querySelector("#quantidade-5kg");
+
 
   const quantity10kg =
     document.querySelector("#quantidade-10kg");
@@ -93,8 +132,10 @@ if (!form) {
   const deliveryDate =
     document.querySelector("#data-entrega");
 
+
   const orderSummaryText =
     document.querySelector("#order-summary-text");
+
 
   const finalOrderSummaryText =
     document.querySelector("#final-order-summary-text");
@@ -105,23 +146,30 @@ if (!form) {
   const cepInput =
     document.querySelector("#cep");
 
+
   const cepFeedback =
     document.querySelector("#cep-feedback");
+
 
   const cityInput =
     document.querySelector("#cidade");
 
+
   const stateInput =
     document.querySelector("#uf");
+
 
   const neighborhoodInput =
     document.querySelector("#bairro");
 
+
   const streetInput =
     document.querySelector("#logradouro");
 
+
   const numberInput =
     document.querySelector("#numero");
+
 
   const complementInput =
     document.querySelector("#complemento");
@@ -132,14 +180,21 @@ if (!form) {
   const nameInput =
     document.querySelector("#nome");
 
+
   const whatsappInput =
     document.querySelector("#whatsapp");
+
 
   const observationInput =
     document.querySelector("#observacao");
 
+  const termsAcceptanceInput =
+    document.querySelector("#aceite-termos");
+
+
   const submitButton =
     document.querySelector("#submit-order");
+
 
   const paymentInputs =
     form.querySelectorAll(
@@ -152,8 +207,10 @@ if (!form) {
   const formFeedback =
     document.querySelector("#form-feedback");
 
+
   const mobileOrderCTA =
     document.querySelector("#mobile-order-cta");
+
 
   /* Estado */
 
@@ -175,15 +232,18 @@ if (!form) {
   ========================================================= */
 
   function normalizeText(value = "") {
+
     return value
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .trim()
       .toLowerCase();
+
   }
 
 
   function formatCurrency(value) {
+
     return new Intl.NumberFormat(
       "pt-BR",
       {
@@ -191,6 +251,7 @@ if (!form) {
         currency: "BRL"
       }
     ).format(value);
+
   }
 
 
@@ -200,8 +261,10 @@ if (!form) {
       return "";
     }
 
+
     const [year, month, day] =
       dateString.split("-");
+
 
     if (
       !year ||
@@ -211,7 +274,84 @@ if (!form) {
       return dateString;
     }
 
+
     return `${day}/${month}/${year}`;
+
+  }
+
+
+  function formatDateInput(date) {
+
+    const year =
+      date.getFullYear();
+
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  /*
+    Soma meses preservando o dia quando possível.
+
+    Exemplo:
+    31 de outubro + 6 meses
+
+    evita comportamentos inesperados
+    causados diretamente por setMonth().
+  */
+
+  function addMonthsClamped(date, months) {
+
+    const result =
+      new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        1
+      );
+
+
+    result.setMonth(
+      result.getMonth() + months
+    );
+
+
+    const lastDayOfTargetMonth =
+      new Date(
+        result.getFullYear(),
+        result.getMonth() + 1,
+        0
+      ).getDate();
+
+
+    result.setDate(
+      Math.min(
+        date.getDate(),
+        lastDayOfTargetMonth
+      )
+    );
+
+
+    return result;
+
   }
 
 
@@ -223,6 +363,7 @@ if (!form) {
         10
       );
 
+
     if (
       Number.isNaN(quantity) ||
       quantity < 0
@@ -230,7 +371,9 @@ if (!form) {
       return 0;
     }
 
+
     return quantity;
+
   }
 
 
@@ -239,11 +382,13 @@ if (!form) {
     const activeElement =
       document.activeElement;
 
+
     if (
       activeElement instanceof HTMLElement
     ) {
       activeElement.blur();
     }
+
   }
 
 
@@ -252,18 +397,23 @@ if (!form) {
     const target =
       formWrapper || form;
 
+
     const headerOffset = 80;
+
 
     const targetTop =
       window.scrollY +
       target.getBoundingClientRect().top -
       headerOffset;
 
+
     window.scrollTo({
       top: Math.max(0, targetTop),
       behavior: "smooth"
     });
+
   }
+
 
   function updateMobileOrderCTA() {
 
@@ -271,22 +421,27 @@ if (!form) {
       return;
     }
 
+
     const isMobile =
       window.matchMedia(
         "(max-width: 768px)"
       ).matches;
 
+
     if (!isMobile) {
+
       mobileOrderCTA.classList.remove(
         "is-visible"
       );
 
       return;
+
     }
 
 
     const formRect =
       form.getBoundingClientRect();
+
 
     const formIsVisible =
       formRect.bottom > 0 &&
@@ -297,6 +452,7 @@ if (!form) {
       "is-visible",
       !formIsVisible
     );
+
   }
 
 
@@ -310,7 +466,9 @@ if (!form) {
       return;
     }
 
+
     formFeedback.textContent = "";
+
 
     formFeedback.classList.remove(
       "is-visible",
@@ -318,6 +476,7 @@ if (!form) {
       "is-error",
       "is-loading"
     );
+
   }
 
 
@@ -330,8 +489,10 @@ if (!form) {
       return;
     }
 
+
     formFeedback.textContent =
       message;
+
 
     formFeedback.classList.remove(
       "is-success",
@@ -339,10 +500,12 @@ if (!form) {
       "is-loading"
     );
 
+
     formFeedback.classList.add(
       "is-visible",
       `is-${type}`
     );
+
   }
 
 
@@ -361,16 +524,20 @@ if (!form) {
       const number =
         Number(step.dataset.step);
 
+
       const active =
         number === stepNumber;
 
+
       step.hidden =
         !active;
+
 
       step.classList.toggle(
         "is-active",
         active
       );
+
     });
 
 
@@ -381,8 +548,10 @@ if (!form) {
           item.dataset.progressStep
         );
 
+
       const active =
         number === stepNumber;
+
 
       const complete =
         number < stepNumber;
@@ -393,6 +562,7 @@ if (!form) {
         active
       );
 
+
       item.classList.toggle(
         "is-complete",
         complete
@@ -400,22 +570,30 @@ if (!form) {
 
 
       if (active) {
+
         item.setAttribute(
           "aria-current",
           "step"
         );
+
       } else {
+
         item.removeAttribute(
           "aria-current"
         );
+
       }
+
     });
 
 
     if (currentStepElement) {
+
       currentStepElement.textContent =
         String(stepNumber);
+
     }
+
   }
 
 
@@ -443,6 +621,7 @@ if (!form) {
     input.value =
       String(safeQuantity);
 
+
     input.setAttribute(
       "value",
       String(safeQuantity)
@@ -462,6 +641,7 @@ if (!form) {
 
 
     updateOrderSummaries();
+
   }
 
 
@@ -476,6 +656,7 @@ if (!form) {
             document.querySelector(
               `#${button.dataset.target}`
             );
+
 
           if (!target) {
             return;
@@ -498,8 +679,10 @@ if (!form) {
             target,
             nextQuantity
           );
+
         }
       );
+
     }
   );
 
@@ -515,8 +698,10 @@ if (!form) {
             input,
             input.value
           );
+
         }
       );
+
     }
   );
 
@@ -532,6 +717,7 @@ if (!form) {
         quantity5kg?.value
       );
 
+
     const amount10kg =
       sanitizeQuantity(
         quantity10kg?.value
@@ -540,6 +726,7 @@ if (!form) {
 
     const product5kg =
       CONFIG.products["5kg"];
+
 
     const product10kg =
       CONFIG.products["10kg"];
@@ -624,6 +811,7 @@ if (!form) {
 
 
     return {
+
       amount5kg,
       amount10kg,
 
@@ -645,7 +833,9 @@ if (!form) {
       shippingPrice,
 
       total
+
     };
+
   }
 
 
@@ -661,22 +851,27 @@ if (!form) {
     if (
       order.amount5kg > 0
     ) {
+
       items.push(
         `${order.amount5kg}× 5 kg`
       );
+
     }
 
 
     if (
       order.amount10kg > 0
     ) {
+
       items.push(
         `${order.amount10kg}× 10 kg`
       );
+
     }
 
 
     return items;
+
   }
 
 
@@ -713,6 +908,7 @@ if (!form) {
 
         </div>
       `;
+
     }
 
 
@@ -731,6 +927,7 @@ if (!form) {
 
       </div>
     `;
+
   }
 
 
@@ -740,15 +937,6 @@ if (!form) {
 
   function buildShippingMessage(order) {
 
-    /*
-      Cidade já confirmada e não é Salvador.
-
-      Nesse caso não mostramos nenhuma mensagem
-      relacionada ao frete grátis de Salvador.
-      O valor normal da entrega já aparece
-      no resumo do pedido.
-    */
-
     if (
       order.hasConfirmedCity &&
       !order.isSalvador
@@ -756,11 +944,6 @@ if (!form) {
       return "";
     }
 
-
-    /*
-      Atingiu 40 kg,
-      mas ainda não informou/confirmou o CEP.
-    */
 
     if (
       order.meetsFreeShippingWeight &&
@@ -776,13 +959,9 @@ if (!form) {
 
         </div>
       `;
+
     }
 
-
-    /*
-      Salvador confirmado
-      e atingiu os 40 kg.
-    */
 
     if (
       order.meetsFreeShippingWeight &&
@@ -796,16 +975,9 @@ if (!form) {
 
         </div>
       `;
+
     }
 
-
-    /*
-      Ainda não atingiu 40 kg.
-
-      Essa mensagem aparece:
-      - antes de confirmar a cidade;
-      - ou quando a cidade confirmada é Salvador.
-    */
 
     const remaining =
       Math.max(
@@ -829,6 +1001,7 @@ if (!form) {
 
       </div>
     `;
+
   }
 
 
@@ -856,6 +1029,7 @@ if (!form) {
           Nenhum item selecionado.
         </span>
       `;
+
     }
 
 
@@ -872,11 +1046,6 @@ if (!form) {
     const shippingMessage =
       buildShippingMessage(order);
 
-
-    /*
-      Informações extras aparecem
-      apenas no resumo final.
-    */
 
     let finalDetails = "";
 
@@ -911,19 +1080,35 @@ if (!form) {
         <div class="order-summary-details">
 
           <div class="order-summary-detail">
-            <span>Data</span>
-            <strong>${delivery}</strong>
+
+            <span>
+              Data
+            </span>
+
+            <strong>
+              ${delivery}
+            </strong>
+
           </div>
 
+
           <div class="order-summary-detail">
-            <span>Entrega em</span>
-            <strong>${deliveryLocation}</strong>
+
+            <span>
+              Entrega em
+            </span>
+
+            <strong>
+              ${deliveryLocation}
+            </strong>
+
           </div>
 
         </div>
 
         <div class="order-summary-divider"></div>
       `;
+
     }
 
 
@@ -989,7 +1174,9 @@ if (!form) {
 
 
       ${shippingMessage}
+
     `;
+
   }
 
 
@@ -1009,6 +1196,7 @@ if (!form) {
         buildOrderSummary(
           order
         );
+
     }
 
 
@@ -1021,7 +1209,9 @@ if (!form) {
             isFinal: true
           }
         );
+
     }
+
   }
 
 
@@ -1037,49 +1227,58 @@ if (!form) {
 
 
   /* =========================================================
-     13. DATA MÍNIMA
+     13. LIMITES DA DATA DE ENTREGA
   ========================================================= */
 
-  function setMinimumDeliveryDate() {
+  function setDeliveryDateLimits() {
 
     if (!deliveryDate) {
       return;
     }
 
 
-    const tomorrow =
+    const today =
       new Date();
 
 
-    tomorrow.setDate(
-      tomorrow.getDate() + 1
+    /*
+      Data mínima:
+      amanhã.
+    */
+
+    const minimumDate =
+      new Date(today);
+
+
+    minimumDate.setDate(
+      minimumDate.getDate() +
+      CONFIG.delivery.minimumDaysAhead
     );
 
 
-    const year =
-      tomorrow.getFullYear();
+    /*
+      Data máxima:
+      6 meses a partir da data atual.
+    */
 
-
-    const month =
-      String(
-        tomorrow.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    const day =
-      String(
-        tomorrow.getDate()
-      ).padStart(
-        2,
-        "0"
+    const maximumDate =
+      addMonthsClamped(
+        today,
+        CONFIG.delivery.maximumMonthsAhead
       );
 
 
     deliveryDate.min =
-      `${year}-${month}-${day}`;
+      formatDateInput(
+        minimumDate
+      );
+
+
+    deliveryDate.max =
+      formatDateInput(
+        maximumDate
+      );
+
   }
 
 
@@ -1105,6 +1304,7 @@ if (!form) {
       );
 
       return false;
+
     }
 
 
@@ -1116,11 +1316,17 @@ if (!form) {
         "Escolha a data desejada para a entrega."
       );
 
+
       deliveryDate?.focus();
 
       return false;
+
     }
 
+
+    /*
+      Data anterior ao mínimo permitido.
+    */
 
     if (
       deliveryDate.min &&
@@ -1132,13 +1338,38 @@ if (!form) {
         "Escolha uma data com pelo menos 24 horas de antecedência."
       );
 
+
       deliveryDate.focus();
 
       return false;
+
+    }
+
+
+    /*
+      Data posterior ao máximo permitido.
+    */
+
+    if (
+      deliveryDate.max &&
+      deliveryDate.value >
+      deliveryDate.max
+    ) {
+
+      showFormFeedback(
+        "Escolha uma data de entrega dentro dos próximos 6 meses."
+      );
+
+
+      deliveryDate.focus();
+
+      return false;
+
     }
 
 
     return true;
+
   }
 
 
@@ -1159,9 +1390,12 @@ if (!form) {
 
       clearFormFeedback();
 
+
       showStep(2);
 
+
       cepInput?.focus();
+
     }
   );
 
@@ -1195,6 +1429,7 @@ if (!form) {
       `${digits.slice(0, 5)}-` +
       `${digits.slice(5)}`
     );
+
   }
 
 
@@ -1215,52 +1450,43 @@ if (!form) {
         );
 
 
-      /*
-        Enquanto o CEP ainda não tem
-        os 8 números, qualquer endereço
-        anterior deixa de ser válido.
-      */
-
       if (
         digits.length < 8
       ) {
 
         lastResolvedCEP = "";
 
+
         clearAddress();
+
 
         setCEPFeedback(
           "Cidade, UF, bairro e rua serão preenchidos pelo CEP."
         );
 
+
         updateOrderSummaries();
 
         return;
+
       }
 
-
-      /*
-        Assim que o oitavo número
-        é digitado ou colado,
-        consulta automaticamente.
-      */
 
       if (
         digits.length === 8 &&
         digits !== lastResolvedCEP
       ) {
 
-        /*
-          Caso o usuário substitua
-          um CEP completo por outro.
-        */
-
         clearAddress();
+
 
         updateOrderSummaries();
 
+
         fetchAddressByCEP();
+
       }
+
     }
   );
 
@@ -1294,7 +1520,9 @@ if (!form) {
       cepFeedback.classList.add(
         `is-${type}`
       );
+
     }
+
   }
 
 
@@ -1328,7 +1556,9 @@ if (!form) {
       field.removeAttribute(
         "readonly"
       );
+
     }
+
   }
 
 
@@ -1338,13 +1568,16 @@ if (!form) {
       streetInput.value = "";
     }
 
+
     if (neighborhoodInput) {
       neighborhoodInput.value = "";
     }
 
+
     if (cityInput) {
       cityInput.value = "";
     }
+
 
     if (stateInput) {
       stateInput.value = "";
@@ -1356,10 +1589,12 @@ if (!form) {
       true
     );
 
+
     setAddressFieldReadonly(
       neighborhoodInput,
       true
     );
+
   }
 
 
@@ -1391,6 +1626,7 @@ if (!form) {
       );
 
       return false;
+
     }
 
 
@@ -1412,6 +1648,7 @@ if (!form) {
         throw new Error(
           "Erro ao consultar CEP."
         );
+
       }
 
 
@@ -1431,6 +1668,7 @@ if (!form) {
           ""
         );
 
+
       if (
         currentCEP !== cep
       ) {
@@ -1442,40 +1680,52 @@ if (!form) {
 
         lastResolvedCEP = "";
 
+
         clearAddress();
+
 
         setCEPFeedback(
           "CEP não encontrado. Confira e tente novamente.",
           "error"
         );
 
+
         updateOrderSummaries();
 
         return false;
+
       }
 
 
       if (streetInput) {
+
         streetInput.value =
           data.logradouro || "";
+
       }
 
 
       if (neighborhoodInput) {
+
         neighborhoodInput.value =
           data.bairro || "";
+
       }
 
 
       if (cityInput) {
+
         cityInput.value =
           data.localidade || "";
+
       }
 
 
       if (stateInput) {
+
         stateInput.value =
           data.uf || "";
+
       }
 
 
@@ -1507,6 +1757,7 @@ if (!form) {
 
         streetInput.placeholder =
           "Digite sua rua";
+
       }
 
 
@@ -1517,6 +1768,7 @@ if (!form) {
 
         neighborhoodInput.placeholder =
           "Digite seu bairro";
+
       }
 
 
@@ -1530,18 +1782,8 @@ if (!form) {
       );
 
 
-      /*
-        Agora a cidade foi confirmada.
-        Recalculamos o frete.
-      */
-
       updateOrderSummaries();
 
-
-      /*
-        Leva o usuário diretamente
-        para o campo Número.
-      */
 
       numberInput?.focus();
 
@@ -1551,6 +1793,7 @@ if (!form) {
     } catch (error) {
 
       lastResolvedCEP = "";
+
 
       console.error(
         "Erro ao consultar CEP:",
@@ -1565,7 +1808,9 @@ if (!form) {
 
 
       return false;
+
     }
+
   }
 
 
@@ -1587,7 +1832,9 @@ if (!form) {
 
       event.preventDefault();
 
+
       fetchAddressByCEP();
+
     }
   );
 
@@ -1616,9 +1863,11 @@ if (!form) {
         "Informe um CEP válido."
       );
 
+
       cepInput?.focus();
 
       return false;
+
     }
 
 
@@ -1630,9 +1879,11 @@ if (!form) {
         "Não conseguimos identificar a cidade pelo CEP."
       );
 
+
       cepInput?.focus();
 
       return false;
+
     }
 
 
@@ -1644,9 +1895,11 @@ if (!form) {
         "Não conseguimos identificar o estado pelo CEP."
       );
 
+
       cepInput?.focus();
 
       return false;
+
     }
 
 
@@ -1658,9 +1911,11 @@ if (!form) {
         "Informe o bairro."
       );
 
+
       neighborhoodInput?.focus();
 
       return false;
+
     }
 
 
@@ -1672,9 +1927,11 @@ if (!form) {
         "Informe a rua da entrega."
       );
 
+
       streetInput?.focus();
 
       return false;
+
     }
 
 
@@ -1686,13 +1943,16 @@ if (!form) {
         "Informe o número do endereço."
       );
 
+
       numberInput?.focus();
 
       return false;
+
     }
 
 
     return true;
+
   }
 
 
@@ -1706,7 +1966,9 @@ if (!form) {
 
       clearFormFeedback();
 
+
       showStep(1);
+
     }
   );
 
@@ -1724,6 +1986,7 @@ if (!form) {
 
       /*
         Segurança extra:
+
         caso o CEP esteja completo mas
         ainda não tenha sido resolvido.
       */
@@ -1734,6 +1997,7 @@ if (!form) {
       ) {
 
         await fetchAddressByCEP();
+
       }
 
 
@@ -1746,11 +2010,15 @@ if (!form) {
 
       updateOrderSummaries();
 
+
       clearFormFeedback();
+
 
       showStep(3);
 
+
       nameInput?.focus();
+
     }
   );
 
@@ -1788,6 +2056,7 @@ if (!form) {
         `(${digits.slice(0, 2)}) ` +
         `${digits.slice(2)}`
       );
+
     }
 
 
@@ -1800,6 +2069,7 @@ if (!form) {
         `${digits.slice(2, 6)}-` +
         `${digits.slice(6)}`
       );
+
     }
 
 
@@ -1808,6 +2078,7 @@ if (!form) {
       `${digits.slice(2, 7)}-` +
       `${digits.slice(7)}`
     );
+
   }
 
 
@@ -1819,6 +2090,7 @@ if (!form) {
         formatPhone(
           whatsappInput.value
         );
+
     }
   );
 
@@ -1827,66 +2099,93 @@ if (!form) {
      23. VALIDAÇÃO — ETAPA 3
   ========================================================= */
 
-  function validateStepThree() {
+function validateStepThree() {
 
-    clearFormFeedback();
-
-
-    if (
-      !nameInput?.value.trim()
-    ) {
-
-      showFormFeedback(
-        "Informe seu nome."
-      );
-
-      nameInput?.focus();
-
-      return false;
-    }
+  clearFormFeedback();
 
 
-    const phoneDigits =
-      whatsappInput?.value.replace(
-        /\D/g,
-        ""
-      ) || "";
+  /* Nome */
 
+  if (
+    !nameInput?.value.trim()
+  ) {
 
-    if (
-      phoneDigits.length < 10
-    ) {
+    showFormFeedback(
+      "Informe seu nome."
+    );
 
-      showFormFeedback(
-        "Informe um WhatsApp válido."
-      );
+    nameInput?.focus();
 
-      whatsappInput?.focus();
+    return false;
 
-      return false;
-    }
-
-
-    const payment =
-      form.querySelector(
-        'input[name="forma_pagamento"]:checked'
-      );
-
-
-    if (!payment) {
-
-      showFormFeedback(
-        "Escolha uma forma de pagamento."
-      );
-
-      paymentInputs[0]?.focus();
-
-      return false;
-    }
-
-
-    return true;
   }
+
+
+  /* WhatsApp */
+
+  const phoneDigits =
+    whatsappInput?.value.replace(
+      /\D/g,
+      ""
+    ) || "";
+
+
+  if (
+    phoneDigits.length < 10
+  ) {
+
+    showFormFeedback(
+      "Informe um WhatsApp válido."
+    );
+
+    whatsappInput?.focus();
+
+    return false;
+
+  }
+
+
+  /* Forma de pagamento */
+
+  const payment =
+    form.querySelector(
+      'input[name="forma_pagamento"]:checked'
+    );
+
+
+  if (!payment) {
+
+    showFormFeedback(
+      "Escolha uma forma de pagamento."
+    );
+
+    paymentInputs[0]?.focus();
+
+    return false;
+
+  }
+
+
+  /* Termos de Uso + Política de Privacidade */
+
+  if (
+    !termsAcceptanceInput?.checked
+  ) {
+
+    showFormFeedback(
+      "Para finalizar o pedido, aceite os Termos de Uso e a Política de Privacidade."
+    );
+
+    termsAcceptanceInput?.focus();
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
 
 
   /* =========================================================
@@ -1899,7 +2198,9 @@ if (!form) {
 
       clearFormFeedback();
 
+
       showStep(2);
+
     }
   );
 
@@ -1913,6 +2214,7 @@ if (!form) {
     return form.querySelector(
       'input[name="forma_pagamento"]:checked'
     )?.value || "";
+
   }
 
 
@@ -1923,6 +2225,7 @@ if (!form) {
 
 
     return {
+
       schemaVersion: 1,
 
       origem: "site-friza",
@@ -1933,64 +2236,93 @@ if (!form) {
           {
             timeZone: "America/Bahia"
           }
-        ).replace(" ", "T"),
+        ).replace(
+          " ",
+          "T"
+        ),
+
 
       cliente: {
+
         nome:
           nameInput?.value.trim() || "",
 
         whatsapp:
           whatsappInput?.value.trim() || ""
+
       },
 
+
       pedido: {
+
         produtos: {
+
           gelo5kg: {
+
             quantidade:
               order.amount5kg,
 
             pesoUnitarioKg:
-              CONFIG.products["5kg"].weightKg,
+              CONFIG.products["5kg"]
+                .weightKg,
 
             precoUnitario:
-              CONFIG.products["5kg"].price
+              CONFIG.products["5kg"]
+                .price
+
           },
 
+
           gelo10kg: {
+
             quantidade:
               order.amount10kg,
 
             pesoUnitarioKg:
-              CONFIG.products["10kg"].weightKg,
+              CONFIG.products["10kg"]
+                .weightKg,
 
             precoUnitario:
-              CONFIG.products["10kg"].price
+              CONFIG.products["10kg"]
+                .price
+
           }
+
         },
+
 
         totalSacos:
           order.totalBags,
 
+
         pesoTotalKg:
           order.totalWeight,
+
 
         dataEntrega:
           order.deliveryDate,
 
+
         subtotal:
           order.subtotal,
+
 
         frete:
           order.shippingPrice,
 
+
         freteGratis:
           order.freeShippingApplied,
 
+
         total:
           order.total
+
       },
 
+
       entrega: {
+
         cep:
           cepInput?.value.trim() || "",
 
@@ -2011,16 +2343,23 @@ if (!form) {
 
         complemento:
           complementInput?.value.trim() || ""
+
       },
 
+
       pagamento: {
+
         forma:
           getSelectedPayment()
+
       },
+
 
       observacao:
         observationInput?.value.trim() || ""
+
     };
+
   }
 
 
@@ -2059,6 +2398,7 @@ if (!form) {
       isLoading
         ? "Enviando..."
         : originalSubmitButtonText;
+
   }
 
 
@@ -2068,13 +2408,6 @@ if (!form) {
       return;
     }
 
-
-    /*
-      Remove o loading.
-
-      O botão permanece desabilitado
-      enquanto a confirmação fica visível.
-    */
 
     submitButton.classList.remove(
       "is-loading"
@@ -2093,6 +2426,7 @@ if (!form) {
 
     submitButton.textContent =
       "✓ Pedido enviado";
+
   }
 
 
@@ -2102,11 +2436,8 @@ if (!form) {
 
   function resetOrderForm() {
 
-    /*
-      Fecha o teclado no celular.
-    */
-
     closeMobileKeyboard();
+
 
     lastResolvedCEP = "";
 
@@ -2129,6 +2460,7 @@ if (!form) {
 
         input.value = "0";
 
+
         input.setAttribute(
           "value",
           "0"
@@ -2142,6 +2474,7 @@ if (!form) {
           ?.classList.remove(
             "has-quantity"
           );
+
       }
     );
 
@@ -2175,10 +2508,13 @@ if (!form) {
 
 
     /*
-      Recalcula a data mínima.
+      Recalcula os limites da data.
+
+      Isso é importante caso a página
+      fique aberta por muito tempo.
     */
 
-    setMinimumDeliveryDate();
+    setDeliveryDateLimits();
 
 
     /*
@@ -2211,16 +2547,20 @@ if (!form) {
       submitButton.disabled =
         false;
 
+
       submitButton.classList.remove(
         "is-loading"
       );
+
 
       submitButton.removeAttribute(
         "aria-busy"
       );
 
+
       submitButton.textContent =
         originalSubmitButtonText;
+
     }
 
 
@@ -2238,9 +2578,12 @@ if (!form) {
 
     window.requestAnimationFrame(
       () => {
+
         scrollFormToTop();
+
       }
     );
+
   }
 
 
@@ -2271,6 +2614,7 @@ if (!form) {
         showStep(1);
 
         return;
+
       }
 
 
@@ -2281,6 +2625,7 @@ if (!form) {
         showStep(2);
 
         return;
+
       }
 
 
@@ -2291,10 +2636,12 @@ if (!form) {
         showStep(3);
 
         return;
+
       }
 
 
       updateOrderSummaries();
+
 
       clearFormFeedback();
 
@@ -2320,10 +2667,6 @@ if (!form) {
           "loading"
         );
 
-
-        /*
-          webhook.js valida o status HTTP.
-        */
 
         await sendOrderToWebhook(
           payload
@@ -2364,7 +2707,6 @@ if (!form) {
           SUCCESS_RESET_DELAY
         );
 
-
       } catch (error) {
 
         console.error(
@@ -2396,13 +2738,17 @@ if (!form) {
      29. INICIALIZAÇÃO
   ========================================================= */
 
-  setMinimumDeliveryDate();
+  setDeliveryDateLimits();
+
 
   updateOrderSummaries();
 
+
   showStep(1);
 
+
   updateMobileOrderCTA();
+
 
   window.addEventListener(
     "scroll",
@@ -2412,8 +2758,10 @@ if (!form) {
     }
   );
 
+
   window.addEventListener(
     "resize",
     updateMobileOrderCTA
   );
+
 }
